@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Psychosophia — Portal Akademik & Digital Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9f6f0;
+            color: #1e1e2a;
+            min-height: 100vh;
+        }
+
+        /* ===== NAVBAR GLOBAL ===== */
+        .navbar {
+            background: #0f1b33;
+            padding: 14px 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #c9a84c;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+        .navbar .brand .icon {
+            background: linear-gradient(135deg, #c9a84c, #e8d48b);
+            padding: 6px 10px;
+            border-radius: 8px;
+            color: #0f1b33;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .navbar .brand span {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+        .navbar .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .navbar .nav-links a:hover {
+            color: #fff;
+            background: rgba(201, 168, 76, 0.15);
+        }
+        .navbar .nav-links a.active {
+            color: #fff;
+            background: rgba(201, 168, 76, 0.25);
+        }
+        .navbar .nav-links a i {
+            margin-right: 4px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 16px;
+            }
+            .navbar .nav-links {
+                justify-content: center;
+                gap: 6px 12px;
+            }
+            .navbar .nav-links a {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: #0f1b33;
+            color: #fff;
+            padding: 80px 32px 60px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 .gold {
+            background: linear-gradient(135deg, #c9a84c, #e8d48b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            max-width: 640px;
+            margin: 16px auto 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+        .hero .sub {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== PORTAL GRID ===== */
+        .portal-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 32px;
+        }
+        .portal-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f1b33;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .portal-section .subhead {
+            text-align: center;
+            color: #6a6a7a;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+        }
+        .portal-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px 24px;
+            box-shadow: 0 8px 30px rgba(15, 27, 51, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .portal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(15, 27, 51, 0.10);
+            border-color: rgba(201, 168, 76, 0.2);
+        }
+        .portal-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+        .portal-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f1b33;
+            margin-bottom: 4px;
+        }
+        .portal-card p {
+            font-size: 0.9rem;
+            color: #6a6a7a;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        .portal-card .badge {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 3px 14px;
+            border-radius: 100px;
+            background: rgba(201, 168, 76, 0.12);
+            color: #c9a84c;
+            align-self: flex-start;
+        }
+        .portal-card .badge.live {
+            background: rgba(45, 143, 138, 0.12);
+            color: #2d8f8a;
+        }
+        .portal-card .badge.dev {
+            background: rgba(45, 143, 138, 0.08);
+            color: #4a6a7a;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f1b33;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 32px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+        }
+        .footer strong {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero {
+                padding: 60px 16px 40px;
+            }
+            .portal-section {
+                padding: 40px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR GLOBAL ===== -->
+    <nav class="navbar">
+        <a href="/" class="brand">
+            <span class="icon">Ψ</span>
+            Psychosophia <span>·</span> Portal
+        </a>
+        <div class="nav-links">
+            <a href="/" class="active"><i class="fas fa-home"></i> Beranda</a>
+            <a href="https://username.github.io/profil-dan-rekam-jejak-akademis-lulusan/"><i class="fas fa-user-graduate"></i> Profil Lulusan</a>
+            <a href="https://username.github.io/sdm/"><i class="fas fa-users"></i> SDM</a>
+            <a href="https://username.github.io/mahasiswa/"><i class="fas fa-user-graduate"></i> Mahasiswa</a>
+            <a href="https://username.github.io/spmi/"><i class="fas fa-clipboard-check"></i> SPMI</a>
+            <a href="https://username.github.io/kurikulum/"><i class="fas fa-book-open"></i> Kurikulum</a>
+            <a href="https://username.github.io/psychosophia-portfolio/"><i class="fas fa-microchip"></i> Digital Lab</a>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <h1>Psychosophia <span class="gold">Portal</span></h1>
+        <p>
+            Pintu masuk terpadu menuju seluruh ekosistem akademik dan inovasi digital
+            Program Studi Psikologi Islam — IAIN SAS Bangka Belitung.
+        </p>
+        <div class="sub">
+            <i class="fas fa-arrow-down" style="margin-right: 6px;"></i> Pilih layanan di bawah
+        </div>
+    </section>
+
+    <!-- ===== PORTAL GRID ===== -->
+    <section class="portal-section">
+        <h2>🚀 Ekosistem Psychosophia</h2>
+        <p class="subhead">Klik kartu untuk membuka masing-masing repositori</p>
+
+        <div class="portal-grid">
+
+            <!-- 1. Profil Lulusan -->
+            <a href="https://username.github.io/profil-dan-rekam-jejak-akademis-lulusan/" class="portal-card">
+                <div class="icon">🎓</div>
+                <h3>Profil & Rekam Jejak Lulusan</h3>
+                <p>Profil lulusan, CPL (Capaian Pembelajaran Lulusan), dan proyeksi profesi psikologi Islam.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+            <!-- 2. SDM -->
+            <a href="https://username.github.io/sdm/" class="portal-card">
+                <div class="icon">👥</div>
+                <h3>Sumber Daya Manusia</h3>
+                <p>Data dosen, tenaga kependidikan, dan rekognisi akademik program studi.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+            <!-- 3. Mahasiswa -->
+            <a href="https://username.github.io/mahasiswa/" class="portal-card">
+                <div class="icon">🧑‍🎓</div>
+                <h3>Mahasiswa</h3>
+                <p>Data mahasiswa, prestasi, rekognisi, dan kegiatan kemahasiswaan.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+            <!-- 4. SPMI -->
+            <a href="https://username.github.io/spmi/" class="portal-card">
+                <div class="icon">📋</div>
+                <h3>SPMI — Sistem Penjaminan Mutu</h3>
+                <p>Dashboard budaya mutu, tata pamong, dan indikator kinerja program studi.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+            <!-- 5. Kurikulum -->
+            <a href="https://username.github.io/kurikulum/" class="portal-card">
+                <div class="icon">📚</div>
+                <h3>Kurikulum Dinamis</h3>
+                <p>Struktur kurikulum, mata kuliah, dan peta capaian pembelajaran interaktif.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+            <!-- 6. Psychosophia Portfolio (Digital Lab) -->
+            <a href="https://username.github.io/psychosophia-portfolio/" class="portal-card">
+                <div class="icon">🧠</div>
+                <h3>Psychosophia Digital Lab</h3>
+                <p>Portofolio layanan psikologi + pilot project digital: Kompas Kampus, RumahHati, Teman Sophia, dan simulator riset.</p>
+                <span class="badge live">Live</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <strong>Psychosophia</strong> — Program Studi Psikologi Islam<br />
+            IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+        </p>
+        <p style="margin-top: 8px; font-size: 0.75rem; opacity: 0.6;">
+            <i class="fas fa-code"></i> Terintegrasi dalam satu portal | 2026
+        </p>
+    </footer>
+
+</body>
+</html>
