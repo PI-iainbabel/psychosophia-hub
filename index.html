@@ -223,7 +223,6 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .portal-grid {
                 grid-template-columns: 1fr;
@@ -241,11 +240,13 @@
 
     <!-- ===== NAVBAR GLOBAL ===== -->
     <nav class="navbar">
-        <a href="/" class="brand">
+        <!-- ========== PERBAIKAN: Link logo mengarah ke portal ========== -->
+        <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="brand">
             <span class="icon">Ψ</span>
             Psychosophia <span>·</span> Portal
         </a>
-        <!-- ========== PERBAIKAN: Link "Beranda" mengarah ke portal ========== -->
+        <div class="nav-links">
+            <!-- ========== PERBAIKAN: Link "Beranda" mengarah ke portal ========== -->
             <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="active"><i class="fas fa-home"></i> Beranda</a>
             <a href="https://pi-iainbabel.github.io/profil-dan-rekam-jejak-akademis-lulusan/"><i class="fas fa-user-graduate"></i> Profil Lulusan</a>
             <a href="https://pi-iainbabel.github.io/sdm/"><i class="fas fa-users"></i> SDM</a>
