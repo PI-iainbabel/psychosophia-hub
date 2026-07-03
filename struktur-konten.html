@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pohon Pengetahuan · Psychosophia Hub</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#E8EDF8',
+                            100: '#C5D2F0',
+                            200: '#9DB5E8',
+                            300: '#6F95E0',
+                            400: '#4F7FD8',
+                            500: '#2A5CC4',
+                            600: '#1A3F8F',
+                            700: '#122B6A',
+                            800: '#0B1D45',
+                            900: '#060F28',
+                            950: '#030714',
+                        },
+                        gold: '#D4AF37',
+                        forest: '#2D6A4F',
+                        leaf: '#52B788',
+                        bark: '#7F5539',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ===== BASE ===== */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #060F28;
+            color: #e2e8f0;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(45, 106, 79, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+                linear-gradient(180deg, #060F28 0%, #0B1D45 100%);
+        }
+
+        /* ===== GLASS NAVBAR ===== */
+        .glass {
+            background: rgba(11, 29, 69, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(82, 183, 136, 0.15);
+        }
+
+        .btn-back-home {
+            background: rgba(82, 183, 136, 0.08);
+            color: #e2e8f0;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(82, 183, 136, 0.15);
+            transition: all 0.3s ease;
+        }
+        .btn-back-home:hover {
+            background: rgba(82, 183, 136, 0.15);
+            border-color: #52B788;
+            color: #52B788;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(82, 183, 136, 0.1);
+        }
+
+        /* ===== HERO ===== */
+        .hero-glow {
+            background: radial-gradient(ellipse at center, rgba(45, 106, 79, 0.12) 0%, transparent 70%);
+        }
+
+        /* ===== TREE ===== */
+        .tree {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .tree,
+        .tree ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        /* ===== TREE LI ===== */
+        .tree li {
+            position: relative;
+            padding: 3px 0 3px 32px;
+            margin-left: 16px;
+            border-left: 2px solid rgba(82, 183, 136, 0.08);
+            transition: border-color 0.4s ease;
+        }
+        .tree li:last-child {
+            border-left: none;
+        }
+        .tree li::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 24px;
+            width: 20px;
+            height: 2px;
+            background: rgba(82, 183, 136, 0.08);
+            transition: all 0.4s ease;
+            border-radius: 4px;
+        }
+        .tree li:last-child::before {
+            background: transparent;
+        }
+        .tree li:hover {
+            border-left-color: rgba(212, 175, 55, 0.2);
+        }
+        .tree li:hover::before {
+            background: rgba(212, 175, 55, 0.2);
+            width: 24px;
+        }
+
+        /* ===== TREE NODE ===== */
+        .tree-node {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: transparent;
+            border: 1px solid transparent;
+            position: relative;
+            margin: 2px 0;
+            box-shadow: 0 0 0 transparent;
+        }
+        .tree-node:hover {
+            background: rgba(82, 183, 136, 0.04);
+            border-color: rgba(82, 183, 136, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transform: translateX(6px) scale(1.01);
+        }
+
+        /* ===== IKON FOLDER ===== */
+        .tree-node .icon-folder {
+            font-size: 1.3rem;
+            width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+        }
+        .tree-node .icon-folder.closed {
+            color: #7F5539;
+        }
+        .tree-node .icon-folder.open {
+            color: #52B788;
+            animation: glow-leaf 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow-leaf {
+            0% { filter: drop-shadow(0 0 2px rgba(82, 183, 136, 0.2)); }
+            100% { filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.5)); }
+        }
+
+        /* ===== IKON FILE ===== */
+        .tree-node .icon-file {
+            font-size: 1rem;
+            width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .tree-node .icon-file.drive {
+            color: #34A853;
+        }
+        .tree-node .icon-file.web {
+            color: #4F7FD8;
+        }
+        .tree-node .icon-file.soon {
+            color: #64748b;
+        }
+
+        /* ===== LABEL ===== */
+        .tree-node .label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            flex: 1;
+            letter-spacing: 0.01em;
+            transition: color 0.3s ease;
+        }
+        .tree-node:hover .label {
+            color: #ffffff;
+        }
+        .tree-node .label-leaf {
+            font-weight: 400;
+            color: #cbd5e1;
+        }
+
+        /* ===== TAG ===== */
+        .tree-node .label .tag {
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .tree-node .label .tag.drive {
+            background: rgba(52, 168, 83, 0.12);
+            color: #34A853;
+            border: 1px solid rgba(52, 168, 83, 0.15);
+        }
+        .tree-node .label .tag.web {
+            background: rgba(79, 127, 216, 0.12);
+            color: #4F7FD8;
+            border: 1px solid rgba(79, 127, 216, 0.15);
+        }
+        .tree-node .label .tag.soon {
+            background: rgba(100, 116, 139, 0.12);
+            color: #94a3b8;
+            border: 1px solid rgba(100, 116, 139, 0.15);
+        }
+
+        /* ===== BADGE ===== */
+        .tree-node .badge-count {
+            background: rgba(82, 183, 136, 0.06);
+            color: #52B788;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(82, 183, 136, 0.08);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .tree-node:hover .badge-count {
+            background: rgba(82, 183, 136, 0.12);
+            border-color: rgba(82, 183, 136, 0.2);
+        }
+
+        /* ===== CHEVRON ===== */
+        .tree-node .chevron {
+            color: #475569;
+            font-size: 0.7rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-left: auto;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
+        }
+        .tree-node .chevron.open {
+            transform: rotate(90deg);
+            color: #52B788;
+        }
+
+        /* ===== LINK LEAF ===== */
+        .tree-node .link-leaf {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.75rem;
+            padding: 4px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-left: auto;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        .tree-node .link-leaf::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(82, 183, 136, 0.1), rgba(212, 175, 55, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 10px;
+        }
+        .tree-node .link-leaf:hover::after {
+            opacity: 1;
+        }
+        .tree-node .link-leaf:hover {
+            color: #52B788;
+            border-color: #52B788;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(82, 183, 136, 0.08);
+            background: rgba(82, 183, 136, 0.04);
+        }
+        .tree-node .link-leaf i {
+            font-size: 0.7rem;
+            position: relative;
+            z-index: 1;
+        }
+        .tree-node .link-leaf span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== CHILDREN ===== */
+        .tree-children {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.5s ease,
+                transform 0.5s ease;
+            opacity: 0;
+            transform: scaleY(0.9) translateY(-8px);
+            transform-origin: top center;
+        }
+        .tree-children.open {
+            max-height: 3000px;
+            opacity: 1;
+            transform: scaleY(1) translateY(0);
+        }
+
+        /* ===== LEVEL STYLES ===== */
+        .level-0>.tree-node {
+            font-weight: 700;
+            font-size: 1.05rem;
+            background: rgba(82, 183, 136, 0.03);
+            border-radius: 16px;
+            padding: 12px 20px;
+            border: 1px solid rgba(82, 183, 136, 0.04);
+            margin: 4px 0;
+            box-shadow: 0 0 0 transparent;
+        }
+        .level-0>.tree-node .label {
+            color: #ffffff;
+            font-size: 1.05rem;
+        }
+        .level-0>.tree-node .badge-count {
+            background: rgba(212, 175, 55, 0.06);
+            color: #D4AF37;
+            border-color: rgba(212, 175, 55, 0.08);
+        }
+
+        .level-1>.tree-node {
+            padding: 8px 16px;
+            margin-left: 4px;
+        }
+        .level-1>.tree-node .label {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .level-2>.tree-node .label {
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+
+        .level-3>.tree-node .label {
+            font-weight: 400;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* ===== ANIMATION "TUMBUH" ===== */
+        @keyframes growIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .tree-children.open .tree-node {
+            animation: growIn 0.4s ease forwards;
+        }
+        /* delay per level untuk efek cascading */
+        .tree-children.open .level-1 .tree-node {
+            animation-delay: 0.05s;
+        }
+        .tree-children.open .level-2 .tree-node {
+            animation-delay: 0.1s;
+        }
+        .tree-children.open .level-3 .tree-node {
+            animation-delay: 0.15s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .tree li {
+                padding-left: 18px;
+                margin-left: 6px;
+            }
+            .tree li::before {
+                width: 12px;
+            }
+            .tree-node {
+                flex-wrap: wrap;
+                padding: 6px 12px;
+                gap: 6px;
+            }
+            .tree-node .label {
+                font-size: 0.8rem;
+                min-width: 80px;
+            }
+            .tree-node .link-leaf {
+                font-size: 0.65rem;
+                padding: 2px 10px;
+            }
+            .level-0>.tree-node {
+                padding: 10px 14px;
+                font-size: 0.95rem;
+            }
+            .level-0>.tree-node .label {
+                font-size: 0.95rem;
+            }
+            .tree-node .label .tag {
+                font-size: 0.5rem;
+                padding: 1px 8px;
+                margin-left: 4px;
+            }
+            .tree-node .icon-folder {
+                font-size: 1.1rem;
+                width: 24px;
+            }
+            .tree-node .icon-file {
+                font-size: 0.85rem;
+                width: 24px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(82, 183, 136, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(82, 183, 136, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <span class="text-gold font-heading font-extrabold text-lg tracking-tight">Psychosophia</span>
+                    <span class="text-white/30">|</span>
+                    <span class="text-sm text-white/60 hidden sm:inline">🌳 Pohon Pengetahuan</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="index.html" class="btn-back-home">
+                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Kembali ke Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="pt-24 pb-6 px-4 text-center hero-glow border-b border-white/5">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 rounded-full bg-leaf/10 border border-leaf/20 text-leaf text-xs font-semibold tracking-wider mb-4 animate-pulse">
+                🌱 JELAJAHI HUTAN PENGETAHUAN
+            </div>
+            <h1 class="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight">
+                🌳 Pohon <span class="text-leaf">Pengetahuan</span>
+            </h1>
+            <p class="mt-3 text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                Ikuti cabang-cabangnya untuk menemukan setiap halaman dan dokumen yang tersedia. Klik folder untuk membuka, dan ikuti daun untuk melangkah lebih dalam.
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
+                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-tree text-leaf mr-1"></i> 4 Cabang Utama
+                </span>
+                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-branch text-leaf mr-1"></i> 22 Ranting
+                </span>
+                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-leaf text-leaf mr-1"></i> 34 Daun
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TREE ===== -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <div class="bg-navy-800/20 rounded-2xl border border-white/5 p-6 sm:p-8 shadow-2xl shadow-black/20 backdrop-blur-sm relative overflow-hidden">
+            <!-- efek latar dedaunan (dekoratif) -->
+            <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-leaf/5 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-gold/5 blur-3xl pointer-events-none"></div>
+
+            <ul class="tree" id="treeRoot">
+                <!-- akan diisi oleh JavaScript -->
+            </ul>
+        </div>
+
+        <!-- ===== LEGENDA ===== -->
+        <div class="mt-8 flex flex-wrap gap-6 justify-center text-xs text-slate-500 border-t border-white/5 pt-6">
+            <span><i class="fas fa-folder text-leaf mr-1.5"></i> Cabang (klik untuk buka/tutup)</span>
+            <span><i class="fas fa-globe text-blue-400 mr-1.5"></i> Halaman Web</span>
+            <span><i class="fas fa-cloud text-green-500 mr-1.5"></i> Google Drive</span>
+            <span><i class="fas fa-clock text-slate-500 mr-1.5"></i> Coming Soon</span>
+            <span><i class="fas fa-chevron-right text-slate-600 mr-1.5"></i> Indikator</span>
+        </div>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-white/5 bg-navy-900/50 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p class="text-xs text-slate-500">
+                &copy; 2024 Program Studi Psikologi Islam · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ============================================================
+        //  DATA STRUKTUR (sama seperti sebelumnya)
+        // ============================================================
+
+        const treeData = [{
+            label: '01_BUDAYA_MUTU_DAN_SPMI',
+            children: [
+                { label: '01_Penetapan_Standar', link: 'https://drive.google.com/drive/folders/xxx' },
+                { label: '02_Pelaksanaan_Standar', link: 'https://drive.google.com/drive/folders/yyy' },
+                { label: '03_Evaluasi_Standar', link: '#' },
+                { label: '04_Pengendalian_dan_Peningkatan', link: '#' },
+                { label: '05_Laporan_SPMI_dan_PD_Dikti', link: '#' },
+            ]
+        }, {
+            label: '02_TATA_KELOLA_DAN_AKUNTABILITAS',
+            children: [
+                { label: '01_Struktur_Organisasi', link: 'https://drive.google.com/drive/folders/zzz' },
+                { label: '02_Profil_Dosen', link: '#' },
+                { label: '03_Tenaga_Kependidikan', link: 'https://pi-iainbabel.github.io/sdm/' },
+                { label: '04_Sarana_dan_Prasarana', link: 'https://drive.google.com/drive/folders/aaa' },
+                { label: '05_Pembiayaan', link: '#' },
+                { label: '06_Survei_Kepuasan_Internal', link: '#' },
+                { label: '07_Sistem_Informasi_dan_TIK', link: '#' },
+                { label: '08_Good_University_Governance', link: '#' },
+            ]
+        }, {
+            label: '03_RELEVANSI_PENDIDIKAN_PENELITIAN_PkM',
+            children: [{
+                label: '01_PENDIDIKAN',
+                children: [
+                    { label: '01_Kurikulum', link: 'https://drive.google.com/drive/folders/bbb' },
+                    { label: '02_Akademik', link: '#' },
+                    { label: '03_Prestasi_Mahasiswa', link: '#' },
+                    { label: '04_Layanan_Mahasiswa', link: '#' },
+                    { label: '05_MBKM_dan_Pertukaran_Mahasiswa', link: '#' },
+                ]
+            }, {
+                label: '02_PENELITIAN',
+                children: [
+                    { label: '01_Peta_Jalan_Penelitian', link: '#' },
+                    { label: '02_Publikasi_Dosen_Mahasiswa', link: '#' },
+                    { label: '03_Luaran_Lain_Penelitian', link: '#' },
+                    { label: '04_Penelitian_Mahasiswa', link: '#' },
+                ]
+            }, {
+                label: '03_PENGABDIAN_KEPADA_MASYARAKAT',
+                children: [
+                    { label: '01_Peta_Jalan_PkM', link: '#' },
+                    { label: '02_Laporan_PkM_Dosen_Mahasiswa', link: '#' },
+                    { label: '03_Luaran_PkM', link: '#' },
+                    { label: '04_Diseminasi_PkM', link: '#' },
+                ]
+            }]
+        }, {
+            label: '04_DIFERENSIASI_MISI_DAN_REKOGNISI',
+            children: [{
+                label: '01_Visi_Keilmuan_dan_Keunggulan_Prodi',
+                link: '#'
+            }, {
+                label: '02_Rekognisi_Pendidikan',
+                children: [
+                    { label: '01_Pengakuan_Kurikulum_dan_Inovasi_Pembelajaran', link: '#' },
+                    { label: '02_Rekognisi_Alumni', link: '#' },
+                    { label: '03_Kepuasan_Stakeholder_Mitra_Pendidikan', link: '#' },
+                ]
+            }, {
+                label: '03_Rekognisi_Penelitian',
+                link: '#'
+            }, {
+                label: '04_Rekognisi_Pengabdian_kepada_Masyarakat',
+                link: '#'
+            }, {
+                label: '05_Rekognisi_Inovasi',
+                link: '#'
+            }, {
+                label: '06_Kerjasama_dan_MoU_MoA',
+                link: '#'
+            }, {
+                label: '07_DUDIK_dan_Pengguna_Lulusan',
+                link: '#'
+            }]
+        }];
+
+        // ============================================================
+        //  FUNGSI DETEKSI JENIS LINK
+        // ============================================================
+
+        function getLinkType(link) {
+            if (!link || link === '#') return 'soon';
+            if (link.includes('drive.google.com')) return 'drive';
+            if (link.includes('pi-iainbabel.github.io') || link.includes('http')) return 'web';
+            return 'soon';
+        }
+
+        function getTag(link) {
+            const type = getLinkType(link);
+            if (type === 'drive') return '<span class="tag drive"><i class="fas fa-cloud mr-1"></i>Drive</span>';
+            if (type === 'web') return '<span class="tag web"><i class="fas fa-globe mr-1"></i>Web</span>';
+            return '<span class="tag soon"><i class="fas fa-hourglass-start mr-1"></i>Coming Soon</span>';
+        }
+
+        // ============================================================
+        //  RENDER TREE
+        // ============================================================
+
+        function buildTree(nodes, level = 0) {
+            const ul = document.createElement('ul');
+            ul.className = 'tree';
+
+            nodes.forEach(node => {
+                const li = document.createElement('li');
+                li.className = `level-${level}`;
+
+                const div = document.createElement('div');
+                div.className = 'tree-node';
+
+                // Icon
+                const iconSpan = document.createElement('span');
+                const isFolder = node.children && node.children.length > 0;
+                if (isFolder) {
+                    iconSpan.className = 'icon-folder closed';
+                    iconSpan.innerHTML = '<i class="fas fa-tree"></i>'; // pohon kecil
+                } else {
+                    const type = getLinkType(node.link);
+                    let iconClass = 'fa-leaf';
+                    if (type === 'drive') iconClass = 'fa-folder-open';
+                    else if (type === 'web') iconClass = 'fa-globe';
+                    else if (type === 'soon') iconClass = 'fa-clock';
+                    iconSpan.className = `icon-file ${type}`;
+                    iconSpan.innerHTML = `<i class="fas ${iconClass}"></i>`;
+                }
+                div.appendChild(iconSpan);
+
+                // Label
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'label' + (isFolder ? '' : ' label-leaf');
+                labelSpan.innerHTML = node.label;
+                if (!isFolder) {
+                    labelSpan.innerHTML += ' ' + getTag(node.link);
+                }
+                div.appendChild(labelSpan);
+
+                // Badge count (untuk folder)
+                if (isFolder) {
+                    const badge = document.createElement('span');
+                    badge.className = 'badge-count';
+                    badge.textContent = node.children.length;
+                    div.appendChild(badge);
+
+                    // Chevron
+                    const chevron = document.createElement('span');
+                    chevron.className = 'chevron';
+                    chevron.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    div.appendChild(chevron);
+
+                    // Children container
+                    const childContainer = document.createElement('div');
+                    childContainer.className = 'tree-children';
+                    const childUl = buildTree(node.children, level + 1);
+                    childContainer.appendChild(childUl);
+                    li.appendChild(childContainer);
+
+                    // Toggle on click
+                    div.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const container = this.parentElement.querySelector('.tree-children');
+                        const chev = this.querySelector('.chevron');
+                        const icon = this.querySelector('.icon-folder');
+                        if (container) {
+                            container.classList.toggle('open');
+                            if (chev) chev.classList.toggle('open');
+                            if (icon) {
+                                icon.classList.toggle('closed');
+                                icon.classList.toggle('open');
+                                if (icon.classList.contains('open')) {
+                                    icon.innerHTML = '<i class="fas fa-tree"></i>';
+                                    icon.style.color = '#52B788';
+                                } else {
+                                    icon.innerHTML = '<i class="fas fa-tree"></i>';
+                                    icon.style.color = '#7F5539';
+                                }
+                            }
+                        }
+                    });
+
+                    // Default: level 0 terbuka, lainnya tertutup
+                    if (level === 0) {
+                        const container = li.querySelector('.tree-children');
+                        if (container) {
+                            container.classList.add('open');
+                            const chev = li.querySelector('.chevron');
+                            if (chev) chev.classList.add('open');
+                            const icon = li.querySelector('.icon-folder');
+                            if (icon) {
+                                icon.classList.remove('closed');
+                                icon.classList.add('open');
+                                icon.innerHTML = '<i class="fas fa-tree"></i>';
+                                icon.style.color = '#52B788';
+                            }
+                        }
+                    }
+
+                } else {
+                    // Leaf: tambahkan link
+                    const link = document.createElement('a');
+                    link.className = 'link-leaf';
+                    link.href = node.link || '#';
+                    link.target = '_blank';
+                    link.innerHTML = '<i class="fas fa-arrow-right"></i> <span>Buka</span>';
+                    div.appendChild(link);
+                }
+
+                li.prepend(div);
+                ul.appendChild(li);
+            });
+
+            return ul;
+        }
+
+        // ============================================================
+        //  MOUNT
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const root = document.getElementById('treeRoot');
+            const treeEl = buildTree(treeData, 0);
+            root.appendChild(treeEl);
+        });
+    </script>
+
+</body>
+</html>
