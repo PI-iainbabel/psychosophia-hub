@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard AMI · Psychosophia Hub</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#E8EDF8', 100: '#C5D2F0', 200: '#9DB5E8',
+                            300: '#6F95E0', 400: '#4F7FD8', 500: '#2A5CC4',
+                            600: '#1A3F8F', 700: '#122B6A', 800: '#0B1D45',
+                            900: '#060F28', 950: '#030714',
+                        },
+                        gold: '#D4AF37',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #060F28;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(11, 29, 69, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(79, 143, 255, 0.15);
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .btn-nav-home {
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .btn-nav-home:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .btn-nav-tree {
+            background: rgba(82, 183, 136, 0.06);
+            color: #52B788;
+            border-color: rgba(82, 183, 136, 0.1);
+        }
+        .btn-nav-tree:hover {
+            background: rgba(82, 183, 136, 0.12);
+            border-color: #52B788;
+            transform: translateY(-2px);
+        }
+        .btn-drive {
+            background: rgba(26, 115, 232, 0.12);
+            color: #4F7FD8;
+            border: 1px solid rgba(26, 115, 232, 0.15);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-drive:hover {
+            background: rgba(26, 115, 232, 0.2);
+            border-color: #4F7FD8;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 4px;
+            font-size: 0.8rem;
+            padding: 8px 0;
+        }
+        .breadcrumb a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .breadcrumb a:hover {
+            color: #D4AF37;
+        }
+        .breadcrumb .separator {
+            color: #475569;
+            font-size: 0.6rem;
+            margin: 0 2px;
+        }
+        .breadcrumb .current {
+            color: #e2e8f0;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .breadcrumb .current i {
+            color: #D4AF37;
+            font-size: 0.9rem;
+        }
+
+        /* ===== TAB ===== */
+        .tab-btn {
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #94a3b8;
+        }
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .tab-btn.active {
+            background: #D4AF37;
+            color: #060F28;
+            border-color: #D4AF37;
+        }
+
+        .sub-tab-btn {
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #94a3b8;
+        }
+        .sub-tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .sub-tab-btn.active {
+            background: rgba(212, 175, 55, 0.15);
+            color: #D4AF37;
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .tab-content {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .badge-temuan {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-temuan.tp {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .badge-temuan.ob {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .badge-temuan.kts-minor {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        .badge-temuan.kts-mayor {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .level-badge.sangat-baik {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .level-badge.baik {
+            background: rgba(212, 175, 55, 0.15);
+            color: #D4AF37;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .level-badge.cukup {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .level-badge.kurang {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .table-wrap thead {
+            background: rgba(11, 29, 69, 0.6);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+        .table-wrap thead th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #D4AF37;
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+        .table-wrap tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s ease;
+        }
+        .table-wrap tbody tr:hover {
+            background: rgba(212, 175, 55, 0.03);
+        }
+        .table-wrap tbody td {
+            padding: 8px 12px;
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+
+        .chart-box {
+            background: rgba(11, 29, 69, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 260px;
+        }
+
+        .card-result {
+            background: rgba(11, 29, 69, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px 24px;
+            transition: all 0.3s ease;
+        }
+        .card-result:hover {
+            border-color: rgba(212, 175, 55, 0.15);
+        }
+
+        .analysis-narrative {
+            background: linear-gradient(135deg, rgba(11, 29, 69, 0.8), rgba(26, 63, 143, 0.2));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-top: 28px;
+        }
+        .analysis-narrative h3 {
+            color: #D4AF37;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .analysis-narrative p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .analysis-narrative strong {
+            color: #fff;
+        }
+        .analysis-narrative .highlight {
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .breadcrumb {
+                font-size: 0.7rem;
+            }
+            .tab-btn {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+            .sub-tab-btn {
+                padding: 4px 12px;
+                font-size: 0.65rem;
+            }
+            .card-result {
+                padding: 14px 16px;
+            }
+            .table-wrap table {
+                font-size: 0.65rem;
+            }
+            .table-wrap thead th,
+            .table-wrap tbody td {
+                padding: 4px 6px;
+            }
+            .analysis-narrative {
+                padding: 16px 18px;
+            }
+            .analysis-narrative p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!-- NAVBAR DENGAN BREADCRUMB                                   -->
+    <!-- ========================================================== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-2">
+
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" title="Kembali ke Home">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+
+                    <a href="https://pi-iainbabel.github.io/tata-kelola/" title="Kembali ke Tata Kelola">
+                        <i class="fas fa-building"></i> Tata Kelola
+                    </a>
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+
+                    <span class="current">
+                        <i class="fas fa-clipboard-check"></i> Dashboard AMI
+                    </span>
+                </div>
+
+                <!-- Tombol navigasi -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-nav btn-nav-home" title="Ke Home">
+                        <i class="fas fa-arrow-left"></i> Home
+                    </a>
+                    <a href="https://pi-iainbabel.github.io/tata-kelola/" class="btn-nav btn-nav-tree" title="Ke Tata Kelola">
+                        <i class="fas fa-arrow-up"></i> Tata Kelola
+                    </a>
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/struktur-konten.html" class="btn-nav btn-nav-tree" title="Pohon Pengetahuan">
+                        <i class="fas fa-tree"></i> Peta
+                    </a>
+                    <!-- Link ke Laporan AMI -->
+                    <a href="https://drive.google.com/drive/folders/xxx" target="_blank" class="btn-drive" title="Laporan AMI">
+                        <i class="fas fa-file-pdf"></i> Laporan AMI
+                    </a>
+                    <!-- Link ke RTL -->
+                    <a href="https://drive.google.com/drive/folders/yyy" target="_blank" class="btn-drive" title="RTL">
+                        <i class="fas fa-tasks"></i> RTL
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================================== -->
+    <!-- SPACER                                                     -->
+    <!-- ========================================================== -->
+    <div class="pt-20"></div>
+
+    <!-- ========================================================== -->
+    <!-- HERO                                                       -->
+    <!-- ========================================================== -->
+    <section class="pt-8 pb-6 px-4 text-center bg-gradient-to-b from-navy-900 to-navy-950 border-b border-white/5">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-wider mb-4">
+                <i class="fas fa-clipboard-check mr-2"></i> AUDIT MUTU INTERNAL
+            </div>
+            <h1 class="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight">
+                Dashboard Hasil AMI <span class="text-gold">2023–2025</span>
+            </h1>
+            <p class="mt-3 text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                Program Studi Psikologi Islam · Fakultas Dakwah dan Komunikasi Islam · IAIN SAS Bangka Belitung
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-calendar-alt text-gold mr-1.5"></i> 3 Tahun
+                </span>
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-layer-group text-gold mr-1.5"></i> 3 Bidang Tridharma
+                </span>
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-check-circle text-gold mr-1.5"></i> 100+ Indikator
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- MAIN CONTENT                                              -->
+    <!-- ========================================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ====== TAHUN TABS ====== -->
+        <div class="flex justify-center gap-2 sm:gap-4 mb-6 border-b border-white/5 pb-4 flex-wrap" id="yearTabs">
+            <button class="tab-btn active" data-year="2023">2023</button>
+            <button class="tab-btn" data-year="2024">2024</button>
+            <button class="tab-btn" data-year="2025">2025</button>
+        </div>
+
+        <!-- ====== KONTEN PER TAHUN ====== -->
+        <div id="yearContent">
+            <!-- diisi oleh JavaScript -->
+        </div>
+
+        <!-- ====== NAVIGASI BAWAH ====== -->
+        <div class="mt-10 text-center border-t border-white/5 pt-6">
+            <p class="text-xs text-slate-500 mb-2">
+                <i class="fas fa-sitemap mr-1"></i> Kembali ke peta situs
+            </p>
+            <a href="https://pi-iainbabel.github.io/psychosophia-hub/struktur-konten.html"
+               class="inline-flex items-center gap-2 text-gold hover:text-white transition-colors text-sm font-medium">
+                <i class="fas fa-tree"></i> Pohon Pengetahuan (Tree Map)
+                <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- ========================================================== -->
+    <!-- FOOTER                                                     -->
+    <!-- ========================================================== -->
+    <footer class="border-t border-white/5 bg-navy-900/50 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p class="text-xs text-slate-500">
+                &copy; 2024 Program Studi Psikologi Islam · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+            </p>
+            <p class="text-[10px] text-slate-600 mt-1">
+                <i class="fas fa-clipboard-check mr-1"></i> Berdasarkan Laporan AMI 2023–2025
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========================================================== -->
+    <!-- JAVASCRIPT                                                 -->
+    <!-- ========================================================== -->
+    <script>
+        // ============================================================
+        //  DATA AMI 2023–2025
+        // ============================================================
+        const amiData = {
+            2023: {
+                pendidikan: {
+                    skorTemuan: 2.36,
+                    predikatTemuan: 'Cukup',
+                    skorDokumen: 0.32,
+                    predikatDokumen: 'Cukup',
+                    totalIndikator: 64,
+                    temuan: { TP: 10, OB: 8, KTS_Minor: 18, KTS_Mayor: 28 }
+                },
+                penelitian: {
+                    skorTemuan: 2.85,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.48,
+                    predikatDokumen: 'Cukup',
+                    totalIndikator: 40,
+                    temuan: { TP: 12, OB: 10, KTS_Minor: 12, KTS_Mayor: 6 }
+                },
+                pengabdian: {
+                    skorTemuan: 2.52,
+                    predikatTemuan: 'Cukup',
+                    skorDokumen: 0.28,
+                    predikatDokumen: 'Cukup',
+                    totalIndikator: 27,
+                    temuan: { TP: 6, OB: 5, KTS_Minor: 10, KTS_Mayor: 6 }
+                }
+            },
+            2024: {
+                pendidikan: {
+                    skorTemuan: 2.68,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.42,
+                    predikatDokumen: 'Cukup',
+                    totalIndikator: 64,
+                    temuan: { TP: 15, OB: 12, KTS_Minor: 20, KTS_Mayor: 17 }
+                },
+                penelitian: {
+                    skorTemuan: 3.12,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.56,
+                    predikatDokumen: 'Baik',
+                    totalIndikator: 40,
+                    temuan: { TP: 16, OB: 10, KTS_Minor: 10, KTS_Mayor: 4 }
+                },
+                pengabdian: {
+                    skorTemuan: 2.85,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.38,
+                    predikatDokumen: 'Cukup',
+                    totalIndikator: 27,
+                    temuan: { TP: 8, OB: 7, KTS_Minor: 8, KTS_Mayor: 4 }
+                }
+            },
+            2025: {
+                pendidikan: {
+                    skorTemuan: 2.95,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.56,
+                    predikatDokumen: 'Baik',
+                    totalIndikator: 64,
+                    temuan: { TP: 24, OB: 12, KTS_Minor: 18, KTS_Mayor: 10 }
+                },
+                penelitian: {
+                    skorTemuan: 3.54,
+                    predikatTemuan: 'Sangat Baik',
+                    skorDokumen: 0.68,
+                    predikatDokumen: 'Baik',
+                    totalIndikator: 40,
+                    temuan: { TP: 18, OB: 8, KTS_Minor: 10, KTS_Mayor: 4 }
+                },
+                pengabdian: {
+                    skorTemuan: 3.29,
+                    predikatTemuan: 'Baik',
+                    skorDokumen: 0.53,
+                    predikatDokumen: 'Baik',
+                    totalIndikator: 27,
+                    temuan: { TP: 12, OB: 5, KTS_Minor: 7, KTS_Mayor: 3 }
+                }
+            }
+        };
+
+        // ============================================================
+        //  DATA INDIKATOR DETAIL (sampel)
+        // ============================================================
+        const indikatorSampel = {
+            pendidikan: [
+                { kode: 'A1.1.1', indikator: 'Standar Kompetensi Lulusan', temuan: 'TP', dokumen: 'Tersedia',
+                catatan: '-' },
+                { kode: 'A1.1.2', indikator: 'Survei kepuasan pengguna lulusan', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: 'belum dilakukan' },
+                { kode: 'A1.1.5', indikator: 'Masa tunggu lulusan bekerja', temuan: 'OB', dokumen: 'Tersedia',
+                    catatan: '19 lulusan <6 bulan' },
+                { kode: 'A1.1.6', indikator: 'Masa studi lulusan', temuan: 'TP', dokumen: 'Tersedia',
+                    catatan: 'rata-rata 3.82 tahun' },
+                { kode: 'A1.5.1.1', indikator: 'Keterlibatan stakeholder review kurikulum', temuan: 'OB',
+                    dokumen: 'Tidak Tersedia', catatan: 'daftar hadir ada' },
+                { kode: 'A1.6.1', indikator: 'Laboran di setiap prodi', temuan: 'KTS Mayor', dokumen: 'Tidak Tersedia',
+                    catatan: '-' },
+                { kode: 'A1.7.1', indikator: 'Kondisi sarana prasarana', temuan: 'KTS Mayor', dokumen: 'Tersedia',
+                    catatan: '-' },
+                { kode: 'A1.8.1', indikator: 'Laporan kinerja ketercapaian program', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: '-' },
+            ],
+            penelitian: [
+                { kode: 'B1.1.1', indikator: 'Penelitian terintegrasi kearifan lokal', temuan: 'TP',
+                    dokumen: 'Tersedia', catatan: '-' },
+                { kode: 'B1.1.2', indikator: 'Penelitian kolaboratif dosen-tendik-mahasiswa', temuan: 'KTS Minor',
+                    dokumen: 'Tersedia', catatan: 'belum melibatkan tendik' },
+                { kode: 'B1.1.4', indikator: 'Kesesuaian penelitian tendik', temuan: 'KTS Minor',
+                    dokumen: 'Tidak Tersedia', catatan: 'minim tendik' },
+                { kode: 'B1.3.2', indikator: 'Penelitian mengedepankan etika', temuan: 'KTS Minor',
+                    dokumen: 'Tidak Tersedia', catatan: 'belum ada komite etik' },
+                { kode: 'B1.5.2', indikator: 'Kolaborasi penelitian dalam negeri', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: '-' },
+                { kode: 'B1.6.2', indikator: 'Alokasi dana penelitian', temuan: 'TP', dokumen: 'Tersedia',
+                catatan: '-' },
+            ],
+            pengabdian: [
+                { kode: 'C1.1.1', indikator: 'Panduan pemetaan potensi masyarakat', temuan: 'KTS Minor',
+                    dokumen: 'Tidak Tersedia', catatan: '-' },
+                { kode: 'C1.1.3', indikator: 'Publikasi PkM dan HAKI', temuan: 'KTS Minor', dokumen: 'Tidak Tersedia',
+                    catatan: '-' },
+                { kode: 'C1.2.1', indikator: 'PkM penerapan hasil penelitian', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: '-' },
+                { kode: 'C1.4.2', indikator: 'Kepuasan masyarakat terhadap PkM', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: 'belum dilaksanakan' },
+                { kode: 'C1.7.4', indikator: 'Penghargaan pelaksana PkM terbaik', temuan: 'KTS Mayor',
+                    dokumen: 'Tidak Tersedia', catatan: '-' },
+                { kode: 'C1.8.2', indikator: 'Anggaran PkM', temuan: 'TP', dokumen: 'Tersedia', catatan: '-' },
+            ]
+        };
+
+        // ============================================================
+        //  RENDER FUNCTIONS
+        // ============================================================
+        let chartInstances = {};
+
+        function getPredikatClass(predikat) {
+            const map = {
+                'Sangat Baik': 'sangat-baik',
+                'Baik': 'baik',
+                'Cukup': 'cukup',
+                'Kurang': 'kurang'
+            };
+            return map[predikat] || 'baik';
+        }
+
+        function renderYear(year) {
+            const container = document.getElementById('yearContent');
+            container.innerHTML = '';
+
+            // Sub-tabs
+            const subTabHtml = `
+                <div class="flex justify-center gap-2 sm:gap-3 mb-6 border-b border-white/5 pb-3 flex-wrap" id="subTabs-${year}">
+                    <button class="sub-tab-btn active" data-bidang="pendidikan">📚 Pendidikan</button>
+                    <button class="sub-tab-btn" data-bidang="penelitian">🔬 Penelitian</button>
+                    <button class="sub-tab-btn" data-bidang="pengabdian">🤝 Pengabdian</button>
+                </div>
+                <div id="subContent-${year}"></div>
+            `;
+            container.innerHTML = subTabHtml;
+
+            // Render default bidang (pendidikan)
+            renderBidang(year, 'pendidikan');
+
+            // Event listener sub-tabs
+            document.querySelectorAll(`#subTabs-${year} .sub-tab-btn`).forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll(`#subTabs-${year} .sub-tab-btn`).forEach(b => b.classList.remove(
+                    'active'));
+                    this.classList.add('active');
+                    renderBidang(year, this.dataset.bidang);
+                });
+            });
+        }
+
+        function renderBidang(year, bidang) {
+            const container = document.getElementById(`subContent-${year}`);
+            const data = amiData[year][bidang];
+            const labelMap = {
+                pendidikan: 'Pendidikan & Pengajaran',
+                penelitian: 'Penelitian',
+                pengabdian: 'Pengabdian Masyarakat'
+            };
+            const iconMap = {
+                pendidikan: '📚',
+                penelitian: '🔬',
+                pengabdian: '🤝'
+            };
+            const label = labelMap[bidang];
+            const icon = iconMap[bidang];
+
+            // Siapkan data temuan
+            const temuan = data.temuan;
+            const total = data.totalIndikator;
+            const tpPct = ((temuan.TP / total) * 100).toFixed(0);
+            const obPct = ((temuan.OB / total) * 100).toFixed(0);
+            const minPct = ((temuan.KTS_Minor / total) * 100).toFixed(0);
+            const majPct = ((temuan.KTS_Mayor / total) * 100).toFixed(0);
+
+            const html = `
+                <div class="tab-content space-y-6">
+
+                    <!-- Ringkasan Skor -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="card-result text-center">
+                            <div class="text-xs text-slate-400 uppercase tracking-wider">Skor Temuan AMI</div>
+                            <div class="text-3xl font-bold text-gold mt-1">${data.skorTemuan.toFixed(2)}</div>
+                            <div class="text-sm font-semibold"><span class="level-badge ${getPredikatClass(data.predikatTemuan)}">${data.predikatTemuan}</span></div>
+                            <div class="text-xs text-slate-500 mt-1">${data.totalIndikator} indikator</div>
+                        </div>
+                        <div class="card-result text-center">
+                            <div class="text-xs text-slate-400 uppercase tracking-wider">Ketersediaan Dokumen</div>
+                            <div class="text-3xl font-bold text-blue-400 mt-1">${(data.skorDokumen * 100).toFixed(0)}%</div>
+                            <div class="text-sm font-semibold"><span class="level-badge ${getPredikatClass(data.predikatDokumen)}">${data.predikatDokumen}</span></div>
+                            <div class="text-xs text-slate-500 mt-1">${data.totalIndikator} indikator</div>
+                        </div>
+                    </div>
+
+                    <!-- Statistik Temuan -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="bg-navy-800/30 rounded-xl p-3 text-center border border-emerald-400/20">
+                            <div class="text-xl font-bold text-emerald-400">${temuan.TP}</div>
+                            <div class="text-xs text-slate-400">TP (${tpPct}%)</div>
+                        </div>
+                        <div class="bg-navy-800/30 rounded-xl p-3 text-center border border-amber-400/20">
+                            <div class="text-xl font-bold text-amber-400">${temuan.OB}</div>
+                            <div class="text-xs text-slate-400">OB (${obPct}%)</div>
+                        </div>
+                        <div class="bg-navy-800/30 rounded-xl p-3 text-center border border-orange-400/20">
+                            <div class="text-xl font-bold text-orange-400">${temuan.KTS_Minor}</div>
+                            <div class="text-xs text-slate-400">KTS Minor (${minPct}%)</div>
+                        </div>
+                        <div class="bg-navy-800/30 rounded-xl p-3 text-center border border-rose-400/20">
+                            <div class="text-xl font-bold text-rose-400">${temuan.KTS_Mayor}</div>
+                            <div class="text-xs text-slate-400">KTS Mayor (${majPct}%)</div>
+                        </div>
+                    </div>
+
+                    <!-- Grafik -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="chart-box">
+                            <h3 class="font-bold text-white text-sm mb-2"><i class="fas fa-chart-pie text-gold mr-2"></i> Distribusi Temuan</h3>
+                            <canvas id="pieChart-${year}-${bidang}" height="200"></canvas>
+                        </div>
+                        <div class="chart-box">
+                            <h3 class="font-bold text-white text-sm mb-2"><i class="fas fa-chart-bar text-gold mr-2"></i> Skor Temuan & Dokumen</h3>
+                            <canvas id="barChart-${year}-${bidang}" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Detail -->
+                    <div class="card-result">
+                        <h3 class="font-bold text-white text-sm mb-3"><i class="fas fa-list-ul text-gold mr-2"></i> Contoh Indikator</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="w-16">Kode</th>
+                                        <th>Indikator</th>
+                                        <th class="text-center w-24">Temuan</th>
+                                        <th class="text-center w-24">Dokumen</th>
+                                        <th class="w-48">Catatan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${indikatorSampel[bidang].map(row => `
+                                        <tr>
+                                            <td class="font-mono text-gold font-bold">${row.kode}</td>
+                                            <td class="text-white text-xs">${row.indikator}</td>
+                                            <td class="text-center"><span class="badge-temuan ${row.temuan.toLowerCase().replace(' ', '-')}">${row.temuan}</span></td>
+                                            <td class="text-center ${row.dokumen === 'Tersedia' ? 'text-emerald-400' : 'text-rose-400'} text-xs font-bold">${row.dokumen}</td>
+                                            <td class="text-xs text-slate-400">${row.catatan || '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Analisis Naratif -->
+                    <div class="analysis-narrative">
+                        <h3><i class="fas fa-trophy"></i> Analisis Kekuatan ${label}</h3>
+                        <p>
+                            Pada tahun <strong>${year}</strong>, capaian AMI untuk bidang <span class="highlight">${label}</span> menunjukkan skor temuan sebesar <strong>${data.skorTemuan.toFixed(2)}</strong> dengan predikat <span class="highlight">${data.predikatTemuan}</span>, serta skor ketersediaan dokumen sebesar <strong>${(data.skorDokumen * 100).toFixed(0)}%</strong> dengan predikat <span class="highlight">${data.predikatDokumen}</span>.
+                        </p>
+                        <p>
+                            <strong>Distribusi temuan</strong> terdiri dari <span class="highlight">${temuan.TP} indikator (${tpPct}%)</span> dengan predikat Tepat (TP), <span class="highlight">${temuan.OB} indikator (${obPct}%)</span> dengan temuan Observasi (OB), <span class="highlight">${temuan.KTS_Minor} indikator (${minPct}%)</span> dengan KTS Minor, dan <span class="highlight">${temuan.KTS_Mayor} indikator (${majPct}%)</span> dengan KTS Mayor.
+                        </p>
+                        <p>
+                            Capaian ini mencerminkan <strong>kualitas pengelolaan</strong> yang terus membaik dari tahun ke tahun, meskipun masih terdapat beberapa aspek yang memerlukan perhatian dan perbaikan berkelanjutan. Program studi berkomitmen untuk terus meningkatkan kualitas melalui <em>continuous improvement</em> yang terencana dan terukur.
+                        </p>
+                        <p class="mb-0">
+                            <strong>Rencana tindak lanjut</strong> disusun berdasarkan temuan-temuan yang ada, dengan prioritas pada peningkatan ketersediaan dokumen dan penguatan implementasi standar mutu di setiap aspek penyelenggaraan program studi.
+                        </p>
+                    </div>
+
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            // Render charts setelah DOM siap
+            setTimeout(() => {
+                renderCharts(year, bidang, data);
+            }, 100);
+        }
+
+        function renderCharts(year, bidang, data) {
+            const pieId = `pieChart-${year}-${bidang}`;
+            const barId = `barChart-${year}-${bidang}`;
+
+            // Destroy existing charts
+            if (chartInstances[pieId]) { chartInstances[pieId].destroy(); }
+            if (chartInstances[barId]) { chartInstances[barId].destroy(); }
+
+            const temuan = data.temuan;
+            const total = data.totalIndikator;
+            const labels = ['TP', 'OB', 'KTS Minor', 'KTS Mayor'];
+            const values = [temuan.TP, temuan.OB, temuan.KTS_Minor, temuan.KTS_Mayor];
+            const colors = ['#34d399', '#fbbf24', '#f59e0b', '#f87171'];
+
+            // Pie Chart
+            const ctxPie = document.getElementById(pieId).getContext('2d');
+            chartInstances[pieId] = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: '#060F28',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 12 }
+                        }
+                    },
+                    cutout: '55%',
+                }
+            });
+
+            // Bar Chart
+            const ctxBar = document.getElementById(barId).getContext('2d');
+            chartInstances[barId] = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Skor Temuan', 'Skor Dokumen'],
+                    datasets: [{
+                        label: 'Skor',
+                        data: [data.skorTemuan, data.skorDokumen * 4],
+                        backgroundColor: ['#D4AF37', '#4F7FD8'],
+                        borderRadius: 6,
+                        barThickness: 50,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    if (ctx.dataIndex === 0) return 'Skor Temuan: ' + ctx.parsed.y.toFixed(2);
+                                    return 'Skor Dokumen: ' + (ctx.parsed.y / 4 * 100).toFixed(0) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 4,
+                            ticks: { stepSize: 0.5, color: '#94a3b8' },
+                            grid: { color: 'rgba(255,255,255,0.04)' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        //  TAB SWITCHING
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render default: 2023, Pendidikan
+            renderYear('2023');
+
+            // Year tabs
+            document.querySelectorAll('#yearTabs .tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('#yearTabs .tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderYear(this.dataset.year);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
