@@ -651,7 +651,7 @@
                     { label: '03 Akademik', link: '#' },
                     { label: '04 Prestasi Mahasiswa', link: 'https://pi-iainbabel.github.io/mahasiswa/prestasi-mahasiswa.html' },
                     { label: '05 Layanan Mahasiswa', link: '#' },
-                    { label: '06 Pengalaman Belajar di Luar Prodi', link: '#' },
+                    { label: '06 Pengalaman Belajar di Luar Prodi (MBKM)', link: '#' },
                 ]
             }, {
                 label: '🔬 Penelitian',
@@ -806,8 +806,8 @@
                         }
                     });
 
-                    // Default: level 0 terbuka, level lain tertutup
-                    if (level === 0) {
+                    // ===== PERUBAHAN: buka level 0 DAN level 1 secara default =====
+                    if (level <= 1) {
                         const container = li.querySelector('.tree-children');
                         if (container) {
                             container.classList.add('open');
