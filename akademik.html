@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akademik · Psikologi Islam</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#E8EDF8', 100: '#C5D2F0', 200: '#9DB5E8',
+                            300: '#6F95E0', 400: '#4F7FD8', 500: '#2A5CC4',
+                            600: '#1A3F8F', 700: '#122B6A', 800: '#0B1D45',
+                            900: '#060F28', 950: '#030714',
+                        },
+                        gold: '#D4AF37',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #060F28;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .glass-nav {
+            background: rgba(11, 29, 69, 0.7);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(79, 143, 255, 0.15);
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .btn-nav-home {
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .btn-nav-home:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .btn-nav-tree {
+            background: rgba(82, 183, 136, 0.06);
+            color: #52B788;
+            border-color: rgba(82, 183, 136, 0.1);
+        }
+        .btn-nav-tree:hover {
+            background: rgba(82, 183, 136, 0.12);
+            border-color: #52B788;
+            transform: translateY(-2px);
+        }
+        .btn-nav-drive {
+            background: rgba(26, 115, 232, 0.08);
+            color: #4F7FD8;
+            border-color: rgba(26, 115, 232, 0.1);
+        }
+        .btn-nav-drive:hover {
+            background: rgba(26, 115, 232, 0.15);
+            border-color: #4F7FD8;
+            transform: translateY(-2px);
+        }
+        .btn-nav-siakad {
+            background: rgba(212, 175, 55, 0.06);
+            color: #D4AF37;
+            border-color: rgba(212, 175, 55, 0.1);
+        }
+        .btn-nav-siakad:hover {
+            background: rgba(212, 175, 55, 0.12);
+            border-color: #D4AF37;
+            transform: translateY(-2px);
+        }
+        .btn-nav-sevima {
+            background: rgba(52, 168, 83, 0.06);
+            color: #34a853;
+            border-color: rgba(52, 168, 83, 0.1);
+        }
+        .btn-nav-sevima:hover {
+            background: rgba(52, 168, 83, 0.12);
+            border-color: #34a853;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 4px;
+            font-size: 0.8rem;
+            padding: 8px 0;
+        }
+        .breadcrumb a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .breadcrumb a:hover {
+            color: #D4AF37;
+        }
+        .breadcrumb .separator {
+            color: #475569;
+            font-size: 0.6rem;
+            margin: 0 2px;
+        }
+        .breadcrumb .current {
+            color: #e2e8f0;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .breadcrumb .current i {
+            color: #D4AF37;
+            font-size: 0.9rem;
+        }
+
+        .card-glass {
+            background: rgba(11, 29, 69, 0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .card-glass:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .table-wrap thead {
+            background: rgba(11, 29, 69, 0.6);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+        .table-wrap thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 700;
+            color: #D4AF37;
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+        .table-wrap tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s ease;
+        }
+        .table-wrap tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .table-wrap tbody td {
+            padding: 10px 14px;
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+        .table-wrap tbody td:first-child {
+            font-weight: 600;
+            color: #e2e8f0;
+            text-align: center;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-status.lengkap {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .tautan-link {
+            color: #4F7FD8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px dotted transparent;
+            word-break: break-all;
+        }
+        .tautan-link:hover {
+            color: #D4AF37;
+            border-bottom-color: #D4AF37;
+        }
+
+        .narrative-section {
+            background: linear-gradient(135deg, rgba(11, 29, 69, 0.8), rgba(26, 63, 143, 0.2));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 28px 32px;
+        }
+        .narrative-section h3 {
+            color: #D4AF37;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .narrative-section p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .narrative-section strong {
+            color: #fff;
+        }
+        .narrative-section .highlight {
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .breadcrumb { font-size: 0.7rem; }
+            .btn-nav { font-size: 0.65rem; padding: 4px 10px; }
+            .table-wrap table { font-size: 0.55rem; }
+            .table-wrap thead th, .table-wrap tbody td { padding: 6px 8px; }
+            .narrative-section { padding: 16px 18px; }
+            .narrative-section p { font-size: 0.8rem; }
+            .tautan-link { font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!-- NAVBAR DENGAN BREADCRUMB                                   -->
+    <!-- ========================================================== -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-2">
+
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" title="Kembali ke Home">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                    <a href="https://pi-iainbabel.github.io/pendidikan/" title="Kembali ke Pendidikan & Akademik">
+                        <i class="fas fa-book"></i> Pendidikan & Akademik
+                    </a>
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                    <span class="current">
+                        <i class="fas fa-graduation-cap"></i> Akademik
+                    </span>
+                </div>
+
+                <!-- Tombol navigasi kanan -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href="https://siakad.iainsasbabel.ac.id/gate/login" target="_blank" class="btn-nav btn-nav-siakad">
+                        <i class="fas fa-sign-in-alt"></i> Login SIAKAD
+                    </a>
+                    <a href="https://knowledge.sevima.com/" target="_blank" class="btn-nav btn-nav-sevima">
+                        <i class="fas fa-book-open"></i> Knowledge SEVIMA
+                    </a>
+                    <a href="https://drive.google.com/drive/u/1/folders/1hXyumCZphePqBNrh_s4PRzeP5xffdbfc" target="_blank" class="btn-nav btn-nav-drive">
+                        <i class="fas fa-folder-open"></i> Drive Folder
+                    </a>
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/struktur-konten.html" class="btn-nav btn-nav-tree" title="Pohon Pengetahuan">
+                        <i class="fas fa-tree"></i> Tree
+                    </a>
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-nav btn-nav-home" title="Kembali ke Home">
+                        <i class="fas fa-arrow-left"></i> Home
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================================== -->
+    <!-- SPACER                                                     -->
+    <!-- ========================================================== -->
+    <div class="pt-20"></div>
+
+    <!-- ===== HERO ===== -->
+    <section class="pt-8 pb-6 px-4 text-center bg-gradient-to-b from-navy-900 to-navy-950 border-b border-white/5">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-wider mb-4">
+                <i class="fas fa-graduation-cap mr-2"></i> DOKUMEN AKADEMIK
+            </div>
+            <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-white leading-tight">
+                Akademik — <span class="text-gold">Kelengkapan Dokumen</span>
+            </h1>
+            <p class="mt-3 text-slate-400 max-w-2xl mx-auto text-sm">
+                Program Studi Psikologi Islam · FDKI · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
+                <span class="px-4 py-1.5 rounded-full bg-emerald-400/20 border border-emerald-400/30 text-emerald-300">
+                    <i class="fas fa-check-circle mr-1.5"></i> Dokumen Lengkap
+                </span>
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-folder-open text-gold mr-1.5"></i> Tersedia di Drive
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATISTIK RINGKASAN ===== -->
+    <section class="py-6 px-4 bg-navy-900/50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-emerald-400">100%</div>
+                    <div class="text-xs text-slate-400">Kelengkapan</div>
+                </div>
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-gold">9</div>
+                    <div class="text-xs text-slate-400">Kategori Dokumen</div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- ===== TABEL REKAPITULASI DOKUMEN AKADEMIK ===== -->
+        <div class="card-glass p-6 border-gold/10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div>
+                    <h3 class="font-heading font-bold text-white text-sm flex items-center gap-2">
+                        <i class="fas fa-clipboard-list text-gold"></i> Rekapitulasi Dokumen Akademik
+                    </h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Dokumen pendukung kegiatan akademik — Program Studi Psikologi Islam</p>
+                </div>
+                <span class="text-[10px] text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">
+                    <i class="fas fa-check-circle mr-1"></i> 100% Lengkap
+                </span>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="w-16 text-center">No</th>
+                            <th>Nama Dokumen</th>
+                            <th class="text-center">Status</th>
+                            <th class="min-w-[160px]">Tautan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center font-bold text-gold">1</td>
+                            <td class="font-semibold text-white">Pedoman Akademik</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=1mtv9Pr7EHeHKsv48qf-aXSP76h-iR1tS&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">2</td>
+                            <td class="font-semibold text-white">Kalender Akademik</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=150MRQF111C2T7RnNZpVCgPFJ83lXcLep&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">3</td>
+                            <td class="font-semibold text-white">SOP Ujian</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=1YoUENvlvKoJ6vvYSrAs3E3oRyZddmBo9&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">4</td>
+                            <td class="font-semibold text-white">Panduan Skripsi / Tugas Akhir</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=1D2WpMxjDbRVU140L25D3NpQs8jhsrNfM&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">5</td>
+                            <td class="font-semibold text-white">Bimbingan Akademik &amp; Dosen PA</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=1TRK3k_ZsIkWMMQ1a6TBlugAsognTBB8u&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">6</td>
+                            <td class="font-semibold text-white">Pedoman Penilaian</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=19NDvgPd6AT-QTul21GkncRU-RiYamgkQ&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">7</td>
+                            <td class="font-semibold text-white">Standar Proses Pembelajaran</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=10O5oduLvpIRiEyOmfOOC4p_VCeYRyAUz&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">8</td>
+                            <td class="font-semibold text-white">Dokumen Pendukung Akreditasi</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=1hZbVmiaMyQiKJViY0Zjgc3iBLdS31hTv&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-bold text-gold">9</td>
+                            <td class="font-semibold text-white">Pedoman MBKM</td>
+                            <td class="text-center"><span class="badge-status lengkap">✅ Tersedia</span></td>
+                            <td><a href="https://drive.google.com/open?id=11kMgnNbDrO-NBSrrOM5yDxGXaFWG7TbB&usp=drive_copy" target="_blank" class="tautan-link"><i class="fas fa-external-link-alt text-[10px] mr-1"></i> Buka</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tambahan: Link SIAKAD & Knowledge SEVIMA -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <a href="https://siakad.iainsasbabel.ac.id/gate/login" target="_blank" class="bg-navy-800/30 rounded-xl p-3 border border-gold/20 hover:border-gold/50 transition flex items-center gap-3 text-slate-300 hover:text-white">
+                    <i class="fas fa-sign-in-alt text-gold text-lg"></i>
+                    <div>
+                        <div class="font-semibold text-white">Login SIAKAD</div>
+                        <div class="text-[10px] text-slate-400">Akses portal akademik terintegrasi SEVIMA</div>
+                    </div>
+                    <i class="fas fa-arrow-right text-gold ml-auto"></i>
+                </a>
+                <a href="https://knowledge.sevima.com/" target="_blank" class="bg-navy-800/30 rounded-xl p-3 border border-gold/20 hover:border-gold/50 transition flex items-center gap-3 text-slate-300 hover:text-white">
+                    <i class="fas fa-book-open text-emerald-400 text-lg"></i>
+                    <div>
+                        <div class="font-semibold text-white">Knowledge SEVIMA</div>
+                        <div class="text-[10px] text-slate-400">Panduan & modul SIAKAD untuk seluruh fitur</div>
+                    </div>
+                    <i class="fas fa-arrow-right text-gold ml-auto"></i>
+                </a>
+            </div>
+
+            <div class="mt-3 text-[10px] text-slate-500 text-center">
+                <i class="fas fa-info-circle mr-1"></i> Seluruh dokumen akademik telah diverifikasi dan tersedia dalam folder drive resmi.
+            </div>
+        </div>
+
+        <!-- ===== NARASI ANALISIS KELENGKAPAN DOKUMEN AKADEMIK ===== -->
+        <div class="narrative-section">
+            <h3>
+                <i class="fas fa-pen-fancy"></i> Analisis Kelengkapan Dokumen Akademik
+                <span class="text-[10px] text-slate-400 font-normal ml-2">— siap tempel ke Sapto</span>
+            </h3>
+
+            <p>
+                Program Studi Psikologi Islam telah menyusun dan mengelola <span class="highlight">dokumen-dokumen akademik</span> sebagai bagian dari sistem penjaminan mutu internal (SPMI) dan pemenuhan standar akreditasi. Seluruh dokumen yang diperlukan untuk mendukung proses pendidikan, penilaian, bimbingan, dan evaluasi telah tersedia secara lengkap dan dapat diakses melalui folder drive resmi program studi.
+            </p>
+
+            <p>
+                <strong class="text-gold">1. Ketersediaan Dokumen Kebijakan Akademik</strong><br>
+                Dokumen kebijakan akademik seperti <strong>Pedoman Akademik</strong>, <strong>Kalender Akademik</strong>, dan <strong>Standar Proses Pembelajaran</strong> telah ditetapkan secara formal dan disosialisasikan kepada seluruh sivitas akademika. Dokumen-dokumen ini menjadi acuan dalam perencanaan, pelaksanaan, dan evaluasi kegiatan pembelajaran.
+            </p>
+
+            <p>
+                <strong class="text-gold">2. Prosedur Operasional Baku (SOP)</strong><br>
+                Tersedia <strong>SOP Ujian</strong> yang mengatur mekanisme pelaksanaan ujian tengah semester, ujian akhir semester, ujian komprehensif, dan ujian skripsi. SOP ini menjamin konsistensi dan keadilan dalam pelaksanaan evaluasi pembelajaran.
+            </p>
+
+            <p>
+                <strong class="text-gold">3. Panduan Tugas Akhir dan Bimbingan</strong><br>
+                <strong>Panduan Skripsi/Tugas Akhir</strong> dan dokumen <strong>Bimbingan Akademik &amp; Dosen PA</strong> telah tersedia sebagai panduan bagi mahasiswa dan dosen dalam proses bimbingan, penulisan, dan penyelesaian tugas akhir. Hal ini memastikan mahasiswa mendapatkan arahan yang jelas dan terstruktur sejak awal hingga akhir masa studi.
+            </p>
+
+            <p>
+                <strong class="text-gold">4. Pedoman Penilaian dan Evaluasi</strong><br>
+                <strong>Pedoman Penilaian</strong> yang telah disusun memuat rubrik dan kriteria penilaian yang transparan, akuntabel, dan berkeadilan, sesuai dengan standar nasional pendidikan tinggi. Dokumen ini mendukung pelaksanaan penilaian yang objektif dan edukatif.
+            </p>
+
+            <p>
+                <strong class="text-gold">5. Dokumen Pendukung Akreditasi dan MBKM</strong><br>
+                Tersedia <strong>Dokumen Pendukung Akreditasi</strong> yang memuat berbagai bukti capaian mutu, serta <strong>Pedoman MBKM</strong> yang mengatur pelaksanaan program Merdeka Belajar Kampus Merdeka, termasuk konversi SKS dan kerja sama dengan mitra industri.
+            </p>
+
+            <p>
+                <strong class="text-gold">6. Aksesibilitas dan Pemutakhiran</strong><br>
+                Seluruh dokumen akademik ditempatkan dalam satu folder drive yang terstruktur dan dapat diakses oleh seluruh dosen, tenaga kependidikan, dan mahasiswa. Pemutakhiran dokumen dilakukan secara berkala sesuai dengan perubahan kebijakan dan kebutuhan stakeholders.
+            </p>
+
+            <p class="mb-0">
+                <strong class="text-gold">Kesimpulan:</strong> Berdasarkan verifikasi terhadap 9 dokumen kunci di bidang akademik, Program Studi Psikologi Islam dinyatakan <span class="highlight">100% lengkap</span> dalam menyediakan dokumen pendukung kegiatan akademik. Seluruh dokumen telah ditetapkan secara formal, disosialisasikan, dan tersedia secara daring, sehingga mendukung terlaksananya proses pendidikan yang berkualitas, terukur, dan akuntabel.
+            </p>
+
+            <div class="mt-4 pt-4 border-t border-gold/20 text-[10px] text-slate-500">
+                <i class="fas fa-folder-open mr-1 text-gold"></i> Folder utama dokumen akademik: 
+                <a href="https://drive.google.com/drive/u/1/folders/1hXyumCZphePqBNrh_s4PRzeP5xffdbfc" target="_blank" class="text-gold hover:text-white transition-colors">
+                    Dokumen Akademik Prodi Psikologi Islam
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== NARASI INTEGRASI SIAKAD SEVIMA ===== -->
+        <div class="card-glass p-6 border-gold/10">
+            <h3 class="font-heading font-bold text-white text-sm flex items-center gap-2 mb-4">
+                <i class="fas fa-laptop text-gold"></i> Integrasi SIAKAD — Siklus Hidup Mahasiswa
+            </h3>
+
+            <p class="text-sm text-slate-300 leading-relaxed">
+                SIAKAD yang digunakan oleh IAIN SAS Babel dikelola oleh <span class="text-gold font-semibold">SEVIMA</span> dan berfungsi sebagai tulang punggung digital yang mengintegrasikan seluruh proses akademik. Mulai dari pendaftaran sebagai calon mahasiswa hingga wisuda, semua tahapan terintegrasi dalam satu platform.
+            </p>
+
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="bg-navy-800/30 rounded-xl p-4 border border-white/5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xl">📝</span>
+                        <h4 class="font-semibold text-white">Pra-Pendaftaran & PMB</h4>
+                    </div>
+                    <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+                        <li>Pendaftaran Online & unggah berkas</li>
+                        <li>Seleksi berbasis CBT terintegrasi</li>
+                        <li>Pengumuman & daftar ulang via sistem</li>
+                    </ul>
+                </div>
+
+                <div class="bg-navy-800/30 rounded-xl p-4 border border-white/5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xl">📚</span>
+                        <h4 class="font-semibold text-white">Perkuliahan & Aktivitas</h4>
+                    </div>
+                    <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+                        <li>Dashboard mahasiswa</li>
+						<li>Pembayaran UKT melalui berbagai metode VA, trf, dll</li>
+                        <li>KRS online (konsultasi PA, pilih kelas, validasi)</li>
+                        <li>Jadwal kuliah & absensi</li>
+						<li>Pengajuan Proposal skripsi, ujian skripsi</li>
+						<li>Platform pembelajaran digital di Edlink</li>
+                        <li>Nilai & KHS online</li>
+                        <li>AKM & MBKM terintegrasi</li>
+                    </ul>
+                </div>
+
+                <div class="bg-navy-800/30 rounded-xl p-4 border border-white/5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xl">🎓</span>
+                        <h4 class="font-semibold text-white">Akhir Studi & Kelulusan</h4>
+                    </div>
+                    <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+                        <li>Yudisium melalui sistem</li>
+                        <li>Wisuda terintegrasi</li>
+                        <li>Transkrip & ijazah</li>
+                        <li>Tracer Study alumni</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-navy-800/20 rounded-lg border border-gold/10">
+                <h4 class="font-semibold text-gold text-xs uppercase tracking-wider mb-1">🔗 Keuntungan Integrasi SIAKAD</h4>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs text-slate-400 list-disc list-inside">
+                    <li><span class="text-white font-medium">Efisiensi</span> — memangkas proses administrasi</li>
+                    <li><span class="text-white font-medium">Aksesibilitas</span> — kapan saja, di mana saja</li>
+                    <li><span class="text-white font-medium">Akurasi Data</span> — minim kesalahan & duplikasi</li>
+                    <li><span class="text-white font-medium">Transparansi</span> — visibilitas penuh proses akademik</li>
+                </ul>
+            </div>
+
+            <div class="mt-3 text-[10px] text-slate-500 text-center">
+                <i class="fas fa-info-circle mr-1"></i> Untuk panduan lengkap, kunjungi 
+                <a href="https://knowledge.sevima.com/" target="_blank" class="text-gold hover:text-white transition-colors">Knowledge SEVIMA</a>
+                &nbsp;|&nbsp; Akses sistem: 
+                <a href="https://siakad.iainsasbabel.ac.id/gate/login" target="_blank" class="text-gold hover:text-white transition-colors">Login SIAKAD</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-white/5 bg-navy-900/50 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p class="text-xs text-slate-500">
+                &copy; 2025 Program Studi Psikologi Islam · FDKI · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+            </p>
+            <p class="text-[10px] text-slate-600 mt-1">Dokumen Akademik — Rekapitulasi Kelengkapan</p>
+        </div>
+    </footer>
+
+</body>
+</html>
