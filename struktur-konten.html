@@ -94,6 +94,91 @@
             background: radial-gradient(ellipse at center, rgba(45, 106, 79, 0.12) 0%, transparent 70%);
         }
 
+        /* ===== DRIVE BUTTON ===== */
+        .btn-drive-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #1A8D4A, #34A853);
+            color: #fff;
+            border: none;
+            box-shadow: 0 8px 32px rgba(52, 168, 83, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.02em;
+        }
+        .btn-drive-main::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent 60%);
+            pointer-events: none;
+        }
+        .btn-drive-main::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 62px;
+            background: linear-gradient(135deg, #52B788, #D4AF37, #34A853);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .btn-drive-main:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 48px rgba(52, 168, 83, 0.5);
+            color: #fff;
+        }
+        .btn-drive-main:hover::after {
+            opacity: 1;
+        }
+        .btn-drive-main i {
+            font-size: 1.2rem;
+        }
+        .btn-drive-main .badge-arrow {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-drive-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .btn-drive-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(82, 183, 136, 0.2);
+            color: #52B788;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        }
+        .btn-drive-secondary i {
+            font-size: 0.9rem;
+            color: #34A853;
+        }
+
         /* ===== TREE ===== */
         .tree {
             list-style: none;
@@ -480,6 +565,20 @@
             .level-3>.tree-node .label {
                 font-size: 0.7rem;
             }
+
+            .btn-drive-main {
+                padding: 12px 20px;
+                font-size: 0.85rem;
+                gap: 8px;
+            }
+            .btn-drive-secondary {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+            .drive-buttons-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
 
         @media (max-width: 480px) {
@@ -562,297 +661,324 @@
             <p class="mt-3 text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
                 Ikuti cabang-cabangnya untuk menemukan setiap halaman dan dokumen yang tersedia. Klik folder untuk membuka, dan ikuti daun untuk melangkah lebih dalam.
             </p>
-            <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
-                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
-                    <i class="fas fa-tree text-leaf mr-1"></i> 4 Cabang Utama
-                </span>
-                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
-                    <i class="fas fa-branch text-leaf mr-1"></i> 6 Komponen
-                </span>
-                <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
-                    <i class="fas fa-leaf text-leaf mr-1"></i> 39 Daun
-                </span>
-            </div>
-        </div>
-    </section>
 
-    <!-- ===== TREE ===== -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <!-- ===== TOMBOL AKSES DRIVE (DITAMBAHKAN DI SINI) ===== -->
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-4 drive-buttons-wrapper">
 
-        <div class="bg-navy-800/20 rounded-2xl border border-white/5 p-6 sm:p-8 shadow-2xl shadow-black/20 backdrop-blur-sm relative overflow-hidden">
-            <!-- efek latar dedaunan (dekoratif) -->
-            <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-leaf/5 blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-gold/5 blur-3xl pointer-events-none"></div>
+                <!-- Tombol Utama: Akses Google Drive -->
+                <a href="https://drive.google.com/drive/folders/1Hv__igUXyicq-R5t4C9vzN5YTKxF3KPm"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-drive-main">
+                <i class="fas fa-folder-open"></i>
+                <span>📂 Akses Google Drive</span>
+                <span class="badge-arrow"><i class="fas fa-arrow-right ml-1"></i></span>
+            </a>
 
-            <ul class="tree" id="treeRoot">
-                <!-- akan diisi oleh JavaScript -->
-            </ul>
-        </div>
+            <!-- Tombol Sekunder: Filter SK Akademik (diperbaiki dengan link pencarian global) -->
+            <a href="https://drive.google.com/drive/search?q=SK%20akademik"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-drive-secondary">
+            <i class="fas fa-filter"></i>
+            <span>Filter SK Akademik</span>
+            <i class="fas fa-external-link-alt text-xs opacity-60"></i>
+        </a>
 
-        <!-- ===== LEGENDA ===== -->
-        <div class="mt-8 flex flex-wrap gap-6 justify-center text-xs text-slate-500 border-t border-white/5 pt-6">
-            <span><i class="fas fa-folder text-leaf mr-1.5"></i> Cabang (klik untuk buka/tutup)</span>
-            <span><i class="fas fa-globe text-blue-400 mr-1.5"></i> Halaman Web</span>
-            <span><i class="fas fa-cloud text-green-500 mr-1.5"></i> Google Drive</span>
-            <span><i class="fas fa-clock text-slate-500 mr-1.5"></i> Coming Soon</span>
-            <span><i class="fas fa-chevron-right text-slate-600 mr-1.5"></i> Indikator</span>
-        </div>
+    </div>
+    <!-- ===== AKHIR TOMBOL ===== -->
 
-    </main>
+    <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
+        <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+            <i class="fas fa-tree text-leaf mr-1"></i> 4 Cabang Utama
+        </span>
+        <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+            <i class="fas fa-branch text-leaf mr-1"></i> 6 Komponen
+        </span>
+        <span class="px-3 py-1 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+            <i class="fas fa-leaf text-leaf mr-1"></i> 39 Daun
+        </span>
+    </div>
+</div>
+</section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="border-t border-white/5 bg-navy-900/50 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
-            <p class="text-xs text-slate-500">
-                &copy; 2025 Program Studi Psikologi Islam · Fakultas Dakwah dan Komunikasi Islam · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
-            </p>
-        </div>
-    </footer>
+<!-- ===== TREE ===== -->
+<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-    <!-- ===== JAVASCRIPT ===== -->
-    <script>
-        // ============================================================
-        //  DATA STRUKTUR — LABEL RAMAH PENGGUNA & TAUTAN KE MAIN CARD
-        // ============================================================
+    <div class="bg-navy-800/20 rounded-2xl border border-white/5 p-6 sm:p-8 shadow-2xl shadow-black/20 backdrop-blur-sm relative overflow-hidden">
+        <!-- efek latar dedaunan (dekoratif) -->
+        <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-leaf/5 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-gold/5 blur-3xl pointer-events-none"></div>
 
-        const treeData = [{
-            label: '📋 Budaya Mutu & SPMI',
-            link: 'https://pi-iainbabel.github.io/spmi/', // Main Card SPMI
+        <ul class="tree" id="treeRoot">
+            <!-- akan diisi oleh JavaScript -->
+        </ul>
+    </div>
+
+    <!-- ===== LEGENDA ===== -->
+    <div class="mt-8 flex flex-wrap gap-6 justify-center text-xs text-slate-500 border-t border-white/5 pt-6">
+        <span><i class="fas fa-folder text-leaf mr-1.5"></i> Cabang (klik untuk buka/tutup)</span>
+        <span><i class="fas fa-globe text-blue-400 mr-1.5"></i> Halaman Web</span>
+        <span><i class="fas fa-cloud text-green-500 mr-1.5"></i> Google Drive</span>
+        <span><i class="fas fa-clock text-slate-500 mr-1.5"></i> Coming Soon</span>
+        <span><i class="fas fa-chevron-right text-slate-600 mr-1.5"></i> Indikator</span>
+    </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="border-t border-white/5 bg-navy-900/50 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+        <p class="text-xs text-slate-500">
+            &copy; 2025 Program Studi Psikologi Islam · Fakultas Dakwah dan Komunikasi Islam · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+        </p>
+    </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+    // ============================================================
+    //  DATA STRUKTUR — LABEL RAMAH PENGGUNA & TAUTAN KE MAIN CARD
+    // ============================================================
+
+    const treeData = [{
+        label: '📋 Budaya Mutu & SPMI',
+        link: 'https://pi-iainbabel.github.io/spmi/', // Main Card SPMI
+        children: [
+            { label: '01 Penetapan Standar', link: 'https://pi-iainbabel.github.io/spmi/penetapan.html' },
+            { label: '02 Pelaksanaan Standar', link: 'https://pi-iainbabel.github.io/spmi/pelaksanaan.html' },
+            { label: '03 Evaluasi Standar', link: 'https://pi-iainbabel.github.io/spmi/evaluasi.html' },
+            { label: '04 Pengendalian & Peningkatan', link: 'https://pi-iainbabel.github.io/spmi/pengendalian.html' },
+            { label: '05 Laporan SPMI & PD Dikti', link: 'https://pi-iainbabel.github.io/spmi/lap-spmi.html' },
+        ]
+    }, {
+        label: '🏛️ Tata Kelola & Akuntabilitas',
+        link: 'https://pi-iainbabel.github.io/tata-kelola/', // Main Card Tata Kelola
+        children: [
+            { label: '01 Struktur Organisasi', link: 'https://pi-iainbabel.github.io/tata-kelola/struktur-organisasi.html' },
+            { label: '02 Profil Dosen', link: 'https://pi-iainbabel.github.io/tata-kelola/main-dprps.html' },
+            { label: '03 Tenaga Kependidikan', link: 'https://pi-iainbabel.github.io/sdm/tendik.html' },
+            { label: '04 Sarana & Prasarana', link: 'https://pi-iainbabel.github.io/tata-kelola/sarpras.html#drive' },
+            { label: '05 Pembiayaan', link: 'https://pi-iainbabel.github.io/tata-kelola/pembiayaan.html' },
+            { label: '06 Survei Kepuasan Internal', link: 'https://pi-iainbabel.github.io/tata-kelola/kepuasan-pengguna.html' },
+            { label: '07 Sistem Informasi & TIK', link: 'https://tipd.iainsasbabel.ac.id/' },
+            { label: '08 Good University Governance', link: 'https://pi-iainbabel.github.io/tata-kelola/gug.html' },
+            { label: '09 Dashboard AMI', link: 'https://pi-iainbabel.github.io/psychosophia-hub/dashboard-ami.html' },
+            { label: '10 Mahasiswa', link: 'https://pi-iainbabel.github.io/mahasiswa/subcard-mhs.html' },
+        ]
+    }, {
+        label: '📚 Relevansi Pendidikan, Penelitian & PkM',
+        children: [{
+            label: '📖 Pendidikan & Akademik',
+            link: 'https://pi-iainbabel.github.io/pendidikan/', // Main Card Pendidikan
             children: [
-                { label: '01 Penetapan Standar', link: 'https://pi-iainbabel.github.io/spmi/penetapan.html' },
-                { label: '02 Pelaksanaan Standar', link: 'https://pi-iainbabel.github.io/spmi/pelaksanaan.html' },
-                { label: '03 Evaluasi Standar', link: 'https://pi-iainbabel.github.io/spmi/evaluasi.html' },
-                { label: '04 Pengendalian & Peningkatan', link: 'https://pi-iainbabel.github.io/spmi/pengendalian.html' },
-                { label: '05 Laporan SPMI & PD Dikti', link: 'https://pi-iainbabel.github.io/spmi/lap-spmi.html' },
+                { label: '01 Kurikulum', link: 'https://pi-iainbabel.github.io/kurikulum/' },
+                { label: '02 Pengukuran dan Analisis CPL', link: 'https://pi-iainbabel.github.io/analisis-cpl/' },
+                { label: '03 Akademik', link: 'https://pi-iainbabel.github.io/psychosophia-hub/akademik.html' },
+                { label: '04 Prestasi Mahasiswa', link: 'https://pi-iainbabel.github.io/mahasiswa/prestasi-mahasiswa.html' },
+                { label: '05 Layanan Mahasiswa', link: 'https://pi-iainbabel.github.io/pendidikan/layanan-mahasiswa.html' },
+                { label: '06 Pengalaman Belajar di Luar Prodi (MBKM)', link: 'https://pi-iainbabel.github.io/pendidikan/magang.html' },
             ]
         }, {
-            label: '🏛️ Tata Kelola & Akuntabilitas',
-            link: 'https://pi-iainbabel.github.io/tata-kelola/', // Main Card Tata Kelola
+            label: '🔬 Penelitian',
+            link: 'https://pi-iainbabel.github.io/penelitian/', // Main Card Penelitian
             children: [
-                { label: '01 Struktur Organisasi', link: 'https://pi-iainbabel.github.io/tata-kelola/struktur-organisasi.html' },
-                { label: '02 Profil Dosen', link: 'https://pi-iainbabel.github.io/tata-kelola/main-dprps.html' },
-                { label: '03 Tenaga Kependidikan', link: 'https://pi-iainbabel.github.io/sdm/tendik.html' },
-                { label: '04 Sarana & Prasarana', link: 'https://pi-iainbabel.github.io/tata-kelola/sarpras.html#drive' },
-                { label: '05 Pembiayaan', link: 'https://pi-iainbabel.github.io/tata-kelola/pembiayaan.html' },
-                { label: '06 Survei Kepuasan Internal', link: 'https://pi-iainbabel.github.io/tata-kelola/kepuasan-pengguna.html' },
-                { label: '07 Sistem Informasi & TIK', link: 'https://tipd.iainsasbabel.ac.id/' },
-                { label: '08 Good University Governance', link: 'https://pi-iainbabel.github.io/tata-kelola/gug.html' },
-                { label: '09 Dashboard AMI', link: 'https://pi-iainbabel.github.io/psychosophia-hub/dashboard-ami.html' },
-                { label: '10 Mahasiswa', link: 'https://pi-iainbabel.github.io/mahasiswa/subcard-mhs.html' },
+                { label: '01 Peta Jalan Penelitian', link: 'https://pi-iainbabel.github.io/riset-pkm/' },
+                { label: '02 Publikasi Dosen', link: 'https://pi-iainbabel.github.io/penelitian/publikasi-dprps.html' },
+                { label: '03 Publikasi Kolaborasi Dosen-Mahasiswa', link: 'https://pi-iainbabel.github.io/penelitian/penelitian-mahasiswa.html' },
+                { label: '04 Luaran Penelitian', link: 'https://pi-iainbabel.github.io/riset-pkm/luaran-lain.html' },
+                { label: '05 Penelitian Mahasiswa', link: 'https://pi-iainbabel.github.io/penelitian/skripsi.html' },
             ]
         }, {
-            label: '📚 Relevansi Pendidikan, Penelitian & PkM',
-            children: [{
-                label: '📖 Pendidikan & Akademik',
-                link: 'https://pi-iainbabel.github.io/pendidikan/', // Main Card Pendidikan
-                children: [
-                    { label: '01 Kurikulum', link: 'https://pi-iainbabel.github.io/kurikulum/' },
-                    { label: '02 Pengukuran dan Analisis CPL', link: 'https://pi-iainbabel.github.io/analisis-cpl/' },
-                    { label: '03 Akademik', link: 'https://pi-iainbabel.github.io/psychosophia-hub/akademik.html' },
-                    { label: '04 Prestasi Mahasiswa', link: 'https://pi-iainbabel.github.io/mahasiswa/prestasi-mahasiswa.html' },
-                    { label: '05 Layanan Mahasiswa', link: 'https://pi-iainbabel.github.io/pendidikan/layanan-mahasiswa.html' },
-                    { label: '06 Pengalaman Belajar di Luar Prodi (MBKM)', link: 'https://pi-iainbabel.github.io/pendidikan/magang.html' },
-                ]
-            }, {
-                label: '🔬 Penelitian',
-                link: 'https://pi-iainbabel.github.io/penelitian/', // Main Card Penelitian
-                children: [
-                    { label: '01 Peta Jalan Penelitian', link: 'https://pi-iainbabel.github.io/riset-pkm/' },
-                    { label: '02 Publikasi Dosen', link: 'https://pi-iainbabel.github.io/penelitian/publikasi-dprps.html' },
-                    { label: '03 Publikasi Kolaborasi Dosen-Mahasiswa', link: 'https://pi-iainbabel.github.io/penelitian/penelitian-mahasiswa.html' },
-                    { label: '04 Luaran Penelitian', link: 'https://pi-iainbabel.github.io/riset-pkm/luaran-lain.html' },
-                    { label: '05 Penelitian Mahasiswa', link: 'https://pi-iainbabel.github.io/penelitian/skripsi.html' },
-                ]
-            }, {
-                label: '🤝 Pengabdian Masyarakat',
-                link: 'https://pi-iainbabel.github.io/pkm/', // Main Card PkM
-                children: [
-                    { label: '01 Peta Jalan PkM', link: 'https://pi-iainbabel.github.io/riset-pkm/' },
-                    { label: '02 Laporan PkM Dosen & Mhs', link: 'https://pi-iainbabel.github.io/pkm/pkm-dosen-mahasiswa.html' },
-                    { label: '03 Luaran PkM', link: 'https://pi-iainbabel.github.io/riset-pkm/luaran-lain.html' },
-                    { label: '04 Diseminasi PkM', link: 'https://pi-iainbabel.github.io/pkm/policy-brief-pi.html' },
-                ]
-            }]
+            label: '🤝 Pengabdian Masyarakat',
+            link: 'https://pi-iainbabel.github.io/pkm/', // Main Card PkM
+            children: [
+                { label: '01 Peta Jalan PkM', link: 'https://pi-iainbabel.github.io/riset-pkm/' },
+                { label: '02 Laporan PkM Dosen & Mhs', link: 'https://pi-iainbabel.github.io/pkm/pkm-dosen-mahasiswa.html' },
+                { label: '03 Luaran PkM', link: 'https://pi-iainbabel.github.io/riset-pkm/luaran-lain.html' },
+                { label: '04 Diseminasi PkM', link: 'https://pi-iainbabel.github.io/pkm/policy-brief-pi.html' },
+            ]
+        }]
+    }, {
+        label: '🏆 Diferensiasi Misi & Rekognisi',
+        link: 'https://pi-iainbabel.github.io/rekognisi/', // Main Card Rekognisi
+        children: [{
+            label: '01 Visi Keilmuan & Keunggulan Prodi',
+            link: 'https://pi-iainbabel.github.io/rekognisi/visi-keunggulan.html'
         }, {
-            label: '🏆 Diferensiasi Misi & Rekognisi',
-            link: 'https://pi-iainbabel.github.io/rekognisi/', // Main Card Rekognisi
-            children: [{
-                label: '01 Visi Keilmuan & Keunggulan Prodi',
-                link: 'https://pi-iainbabel.github.io/rekognisi/visi-keunggulan.html'
-            }, {
-                label: '02 Rekognisi Pendidikan',
-                children: [
-                    { label: '01 Pengakuan Kurikulum & Inovasi Pembelajaran', link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-pendidikan.html' },
-                    { label: '02 Rekognisi Alumni', link: 'https://pi-iainbabel.github.io/pendidikan/apresiasi-lulusan.html' },
-                    { label: '03 Kepuasan Stakeholder & Mitra', link: 'https://pi-iainbabel.github.io/tata-kelola/kepuasan-pengguna.html' },
-                ]
-            }, {
-                label: '03 Rekognisi Penelitian',
-                link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-riset.html'
-            }, {
-                label: '04 Rekognisi Pengabdian Masyarakat',
-                link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-pkm.html'
-            }, {
-                label: '05 Rekognisi Inovasi',
-                link: 'https://pi-iainbabel.github.io/rekognisi/inovasi.html'
-            }, {
-                label: '06 Kerjasama & MoU/MoA',
-                link: 'https://pi-iainbabel.github.io/rekognisi/kerjasama.html'
-            }, {
-                label: '07 Rekognisi Program Studi',
-                link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-prodi.html'
-            }, {
-                label: '08 DUDIK',
-                link: 'https://pi-iainbabel.github.io/psychosophia-portfolio/'
-            }]
-        }];
+            label: '02 Rekognisi Pendidikan',
+            children: [
+                { label: '01 Pengakuan Kurikulum & Inovasi Pembelajaran', link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-pendidikan.html' },
+                { label: '02 Rekognisi Alumni', link: 'https://pi-iainbabel.github.io/pendidikan/apresiasi-lulusan.html' },
+                { label: '03 Kepuasan Stakeholder & Mitra', link: 'https://pi-iainbabel.github.io/tata-kelola/kepuasan-pengguna.html' },
+            ]
+        }, {
+            label: '03 Rekognisi Penelitian',
+            link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-riset.html'
+        }, {
+            label: '04 Rekognisi Pengabdian Masyarakat',
+            link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-pkm.html'
+        }, {
+            label: '05 Rekognisi Inovasi',
+            link: 'https://pi-iainbabel.github.io/rekognisi/inovasi.html'
+        }, {
+            label: '06 Kerjasama & MoU/MoA',
+            link: 'https://pi-iainbabel.github.io/rekognisi/kerjasama.html'
+        }, {
+            label: '07 Rekognisi Program Studi',
+            link: 'https://pi-iainbabel.github.io/rekognisi/rekognisi-prodi.html'
+        }, {
+            label: '08 DUDIK',
+            link: 'https://pi-iainbabel.github.io/psychosophia-portfolio/'
+        }]
+    }];
 
-        // ============================================================
-        //  FUNGSI DETEKSI JENIS LINK
-        // ============================================================
+    // ============================================================
+    //  FUNGSI DETEKSI JENIS LINK
+    // ============================================================
 
-        function getLinkType(link) {
-            if (!link || link === '#') return 'soon';
-            if (link.includes('drive.google.com')) return 'drive';
-            if (link.includes('pi-iainbabel.github.io') || link.includes('http')) return 'web';
-            return 'soon';
-        }
+    function getLinkType(link) {
+        if (!link || link === '#') return 'soon';
+        if (link.includes('drive.google.com')) return 'drive';
+        if (link.includes('pi-iainbabel.github.io') || link.includes('http')) return 'web';
+        return 'soon';
+    }
 
-        function getTag(link) {
-            const type = getLinkType(link);
-            if (type === 'drive') return '<span class="tag drive"><i class="fas fa-cloud mr-1"></i>Drive</span>';
-            if (type === 'web') return '<span class="tag web"><i class="fas fa-globe mr-1"></i>Web</span>';
-            return '<span class="tag soon"><i class="fas fa-hourglass-start mr-1"></i>Coming Soon</span>';
-        }
+    function getTag(link) {
+        const type = getLinkType(link);
+        if (type === 'drive') return '<span class="tag drive"><i class="fas fa-cloud mr-1"></i>Drive</span>';
+        if (type === 'web') return '<span class="tag web"><i class="fas fa-globe mr-1"></i>Web</span>';
+        return '<span class="tag soon"><i class="fas fa-hourglass-start mr-1"></i>Coming Soon</span>';
+    }
 
-        // ============================================================
-        //  RENDER TREE
-        // ============================================================
+    // ============================================================
+    //  RENDER TREE
+    // ============================================================
 
-        function buildTree(nodes, level = 0) {
-            const ul = document.createElement('ul');
-            ul.className = 'tree';
+    function buildTree(nodes, level = 0) {
+        const ul = document.createElement('ul');
+        ul.className = 'tree';
 
-            nodes.forEach(node => {
-                const li = document.createElement('li');
-                li.className = `level-${level}`;
+        nodes.forEach(node => {
+            const li = document.createElement('li');
+            li.className = `level-${level}`;
 
-                const div = document.createElement('div');
-                div.className = 'tree-node';
+            const div = document.createElement('div');
+            div.className = 'tree-node';
 
-                // Icon
-                const iconSpan = document.createElement('span');
-                const isFolder = node.children && node.children.length > 0;
-                if (isFolder) {
-                    iconSpan.className = 'icon-folder closed';
-                    iconSpan.innerHTML = '<i class="fas fa-tree"></i>';
-                } else {
-                    const type = getLinkType(node.link);
-                    let iconClass = 'fa-leaf';
-                    if (type === 'drive') iconClass = 'fa-folder-open';
-                    else if (type === 'web') iconClass = 'fa-globe';
-                    else if (type === 'soon') iconClass = 'fa-clock';
-                    iconSpan.className = `icon-file ${type}`;
-                    iconSpan.innerHTML = `<i class="fas ${iconClass}"></i>`;
-                }
-                div.appendChild(iconSpan);
+            // Icon
+            const iconSpan = document.createElement('span');
+            const isFolder = node.children && node.children.length > 0;
+            if (isFolder) {
+                iconSpan.className = 'icon-folder closed';
+                iconSpan.innerHTML = '<i class="fas fa-tree"></i>';
+            } else {
+                const type = getLinkType(node.link);
+                let iconClass = 'fa-leaf';
+                if (type === 'drive') iconClass = 'fa-folder-open';
+                else if (type === 'web') iconClass = 'fa-globe';
+                else if (type === 'soon') iconClass = 'fa-clock';
+                iconSpan.className = `icon-file ${type}`;
+                iconSpan.innerHTML = `<i class="fas ${iconClass}"></i>`;
+            }
+            div.appendChild(iconSpan);
 
-                // Label
-                const labelSpan = document.createElement('span');
-                labelSpan.className = 'label' + (isFolder ? '' : ' label-leaf');
-                labelSpan.innerHTML = node.label;
-                if (!isFolder) {
-                    labelSpan.innerHTML += ' ' + getTag(node.link);
-                }
-                div.appendChild(labelSpan);
+            // Label
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'label' + (isFolder ? '' : ' label-leaf');
+            labelSpan.innerHTML = node.label;
+            if (!isFolder) {
+                labelSpan.innerHTML += ' ' + getTag(node.link);
+            }
+            div.appendChild(labelSpan);
 
-                // Badge count (untuk folder)
-                if (isFolder) {
-                    const badge = document.createElement('span');
-                    badge.className = 'badge-count';
-                    badge.textContent = node.children.length;
-                    div.appendChild(badge);
+            // Badge count (untuk folder)
+            if (isFolder) {
+                const badge = document.createElement('span');
+                badge.className = 'badge-count';
+                badge.textContent = node.children.length;
+                div.appendChild(badge);
 
-                    // Chevron
-                    const chevron = document.createElement('span');
-                    chevron.className = 'chevron';
-                    chevron.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                    div.appendChild(chevron);
+                // Chevron
+                const chevron = document.createElement('span');
+                chevron.className = 'chevron';
+                chevron.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                div.appendChild(chevron);
 
-                    // Children container
-                    const childContainer = document.createElement('div');
-                    childContainer.className = 'tree-children';
-                    const childUl = buildTree(node.children, level + 1);
-                    childContainer.appendChild(childUl);
-                    li.appendChild(childContainer);
+                // Children container
+                const childContainer = document.createElement('div');
+                childContainer.className = 'tree-children';
+                const childUl = buildTree(node.children, level + 1);
+                childContainer.appendChild(childUl);
+                li.appendChild(childContainer);
 
-                    // Toggle on click
-                    div.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const container = this.parentElement.querySelector('.tree-children');
-                        const chev = this.querySelector('.chevron');
-                        const icon = this.querySelector('.icon-folder');
-                        if (container) {
-                            container.classList.toggle('open');
-                            if (chev) chev.classList.toggle('open');
-                            if (icon) {
-                                icon.classList.toggle('closed');
-                                icon.classList.toggle('open');
-                                if (icon.classList.contains('open')) {
-                                    icon.innerHTML = '<i class="fas fa-tree"></i>';
-                                    icon.style.color = '#52B788';
-                                } else {
-                                    icon.innerHTML = '<i class="fas fa-tree"></i>';
-                                    icon.style.color = '#7F5539';
-                                }
-                            }
-                        }
-                    });
-
-                    // ===== PERUBAHAN: buka level 0 DAN level 1 secara default =====
-                    if (level <= 1) {
-                        const container = li.querySelector('.tree-children');
-                        if (container) {
-                            container.classList.add('open');
-                            const chev = li.querySelector('.chevron');
-                            if (chev) chev.classList.add('open');
-                            const icon = li.querySelector('.icon-folder');
-                            if (icon) {
-                                icon.classList.remove('closed');
-                                icon.classList.add('open');
+                // Toggle on click
+                div.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const container = this.parentElement.querySelector('.tree-children');
+                    const chev = this.querySelector('.chevron');
+                    const icon = this.querySelector('.icon-folder');
+                    if (container) {
+                        container.classList.toggle('open');
+                        if (chev) chev.classList.toggle('open');
+                        if (icon) {
+                            icon.classList.toggle('closed');
+                            icon.classList.toggle('open');
+                            if (icon.classList.contains('open')) {
                                 icon.innerHTML = '<i class="fas fa-tree"></i>';
                                 icon.style.color = '#52B788';
+                            } else {
+                                icon.innerHTML = '<i class="fas fa-tree"></i>';
+                                icon.style.color = '#7F5539';
                             }
                         }
                     }
+                });
 
-                } else {
-                    // Leaf: tambahkan link
-                    const link = document.createElement('a');
-                    link.className = 'link-leaf';
-                    link.href = node.link || '#';
-                    link.target = '_blank';
-                    link.innerHTML = '<i class="fas fa-arrow-right"></i> <span>Buka</span>';
-                    div.appendChild(link);
+                // ===== PERUBAHAN: buka level 0 DAN level 1 secara default =====
+                if (level <= 1) {
+                    const container = li.querySelector('.tree-children');
+                    if (container) {
+                        container.classList.add('open');
+                        const chev = li.querySelector('.chevron');
+                        if (chev) chev.classList.add('open');
+                        const icon = li.querySelector('.icon-folder');
+                        if (icon) {
+                            icon.classList.remove('closed');
+                            icon.classList.add('open');
+                            icon.innerHTML = '<i class="fas fa-tree"></i>';
+                            icon.style.color = '#52B788';
+                        }
+                    }
                 }
 
-                li.prepend(div);
-                ul.appendChild(li);
-            });
+            } else {
+                // Leaf: tambahkan link
+                const link = document.createElement('a');
+                link.className = 'link-leaf';
+                link.href = node.link || '#';
+                link.target = '_blank';
+                link.innerHTML = '<i class="fas fa-arrow-right"></i> <span>Buka</span>';
+                div.appendChild(link);
+            }
 
-            return ul;
-        }
-
-        // ============================================================
-        //  MOUNT
-        // ============================================================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const root = document.getElementById('treeRoot');
-            const treeEl = buildTree(treeData, 0);
-            root.appendChild(treeEl);
+            li.prepend(div);
+            ul.appendChild(li);
         });
-    </script>
+
+        return ul;
+    }
+
+    // ============================================================
+    //  MOUNT
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const root = document.getElementById('treeRoot');
+        const treeEl = buildTree(treeData, 0);
+        root.appendChild(treeEl);
+    });
+</script>
 
 </body>
 </html>
